@@ -1,4 +1,4 @@
-# Emily - A discord bot
+# CSGO Bot - A discord bot
 
 A Java bot for [Discord](https://discordapp.com/) using the [JDA library](https://github.com/DV8FromTheWorld/JDA) and [JDA-Utilities](https://github.com/JDA-Applications/JDA-Utilities).
 
@@ -47,11 +47,11 @@ For a list of commands in discord the **help** command can be used.
 
 Current list of all available commands.
 
-Commands | | | | |
---- | --- | ---| ---| ---
-[Coinflip](#Coinflip) | [Map Veto](#Map Veto)
-[Veto](#Veto)  |[StopVeto](#Stop Veto) 
-[Random Map](#Random Map) | [CSGO Stats](#CSGO Stats)
+Commands | |
+--- | --- |
+[Coinflip](#Coinflip) | [Map Veto](#MapVeto)
+[Veto](#Veto)  |[Stop Veto](#StopVeto) 
+[Random Map](#RandomMap) | [CSGO Stats](#CSGOStats)
 
 ### Coinflip
 
@@ -61,7 +61,7 @@ Aliases: coinflip
 
 Usable in public and private channels
 
-### Map Veto
+### MapVeto
 
 Starts the CSGO Map Veto System
 
@@ -89,7 +89,7 @@ Usable in public channels
 start <mapName>
 ```
 
-### Stop Veto
+### StopVeto
 
 Stops the current veto
 
@@ -97,7 +97,7 @@ Aliases: stopveto
 
 Usable in public channels
 
-### Random Map
+### RandomMap
 
 Selects a random map of the active duty pool
 
@@ -105,7 +105,7 @@ Aliases: randommap
 
 Usable in public and private channels
 
-### CSGO Stats
+### CSGOStats
 
 Grabs CSGO data from [Steam](https://steampowered.com/)
 
