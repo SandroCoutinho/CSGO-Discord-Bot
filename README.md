@@ -1,4 +1,4 @@
-# Emily - A discord bot
+# CSGO-Discord-Bot - A discord bot
 
 A Java bot for [Discord](https://discordapp.com/) using the [JDA library](https://github.com/DV8FromTheWorld/JDA) and [JDA-Utilities](https://github.com/JDA-Applications/JDA-Utilities).
 
