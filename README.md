@@ -49,9 +49,9 @@ Current list of all available commands.
 
 Commands | |
 --- | --- |
-[Coinflip](#Coinflip) | [Map Veto](#Map Veto)
+[Coinflip](#Coinflip) | [MapVeto](#Map Veto)
 [Veto](#Veto)  |[StopVeto](#Stop Veto) 
-[Random Map](#Random Map) | [CSGO Stats](#CSGO Stats)
+[RandomMap](#Random Map) | [CSGOStats](#CSGO Stats)
 
 ### Coinflip
 
