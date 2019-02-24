@@ -9,13 +9,14 @@ import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Landing {
 
     public static void main(String[] args) throws Exception {
-        if (!Files.exists(Paths.get("config/default.settings"))) {
+        if (!Files.exists(Paths.get("configs/default.settings"))) {
             FileUtils.writeDefaultConfigs();
         }
 
@@ -29,8 +30,8 @@ public class Landing {
 
         client.setGame(Game.playing("Counter-Strike Global Offensive"));
 
-        client.setOwnerId(FileUtils.getProperty("default", "botOwnerId"));
-        client.setPrefix(FileUtils.getProperty("default", "botCommandPrefix"));
+        client.setOwnerId("466822971856650260");
+        client.setPrefix("!");
         client.setStatus(OnlineStatus.DO_NOT_DISTURB);
 
         client.addCommands(
