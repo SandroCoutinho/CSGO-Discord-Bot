@@ -15,7 +15,8 @@ import java.nio.file.Paths;
 public class Landing {
 
     public static void main(String[] args) throws Exception {
-        if (!Files.exists(Paths.get("config/default.settings"))) {
+        if (!Files.exists(Paths.get("configs/default.settings"))) {
+            System.out.println("Active?");
             FileUtils.writeDefaultConfigs();
         }
 
