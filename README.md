@@ -47,8 +47,8 @@ For a list of commands in discord the **help** command can be used.
 
 Current list of all available commands.
 
-Commands | | | | |
---- | --- | ---| ---| ---
+Commands | |
+--- | --- |
 [Coinflip](#Coinflip) | [Map Veto](#Map Veto)
 [Veto](#Veto)  |[StopVeto](#Stop Veto) 
 [Random Map](#Random Map) | [CSGO Stats](#CSGO Stats)
