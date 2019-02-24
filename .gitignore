@@ -1,0 +1,10 @@
+# Heroku deployment system
+deploy
+
+# Guild configurations
+configs/
+
+# Jetbrains
+*.iml
+.idea/
+target/
