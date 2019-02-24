@@ -1,11 +1,9 @@
 package com.sandroc.discord.csgobot.utils;
 
 public enum DefaultSetting {
-    BOT_ENABLED("botEnabled", true),
+    BOT_ENABLED("botEnabled", false),
     BOT_TOKEN("botToken", "BOT_TOKEN"),
-    BOT_OWNERID("botOwnerId", "466822971856650260"),
-    STEAM_API_KEY("steamAPIKey", "STEAM_API_KEY"),
-    BOT_COMMAND_PREFIX("botCommandPrefix", "!");
+    STEAM_API_KEY("steamAPIKey", "STEAM_API_KEY");
 
     private String key;
     private Object value;

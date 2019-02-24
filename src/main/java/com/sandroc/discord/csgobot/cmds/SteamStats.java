@@ -17,7 +17,7 @@ public class SteamStats extends Command {
 
     public SteamStats() {
         this.name = "csgostats";
-        this.help = "grabs csgo data from steam";
+        this.help = "Grabs CSGO data from Steam";
         this.cooldown = 60;
         this.cooldownScope = CooldownScope.GUILD;
         this.arguments = "<steamProfileId/steamProfileName>";
