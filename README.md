@@ -12,7 +12,7 @@ A Java bot for [Discord](https://discordapp.com/) using the [JDA library](https:
 ## Run the bot yourself
 
 * [Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-* [git](https://git-scm.com/)
+* [Git](https://git-scm.com/)
 * [Maven](https://maven.apache.org/)
 
 1. Clone the project with git
