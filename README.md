@@ -32,8 +32,8 @@ A Java bot for [Discord](https://discordapp.com/) using the [JDA library](https:
 
     You can launch the bot with the following command:
     `java -jar csgobot-{VERSION}.jar`
-    On first launch, It will generate an `default.settings` file and exit.<br>
-    You'll have to edit the config file and add in your token, database configuration, etc.
+    On first launch, It will generate a `default.settings` file and exit.<br>
+    You'll have to edit the config file and add in your token, Steam API key, etc.
 
 
 ## Usage
