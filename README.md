@@ -49,9 +49,9 @@ Current list of all available commands.
 
 Commands | |
 --- | --- |
-[Coinflip](#Coinflip) | [Map Veto](#MapVeto)
-[Veto](#Veto)  |[Stop Veto](#StopVeto) 
-[Random Map](#RandomMap) | [CSGO Stats](#CSGOStats)
+[Coinflip](#Coinflip) | [Map Veto](#Map-Veto)
+[Veto](#Veto)  |[Stop Veto](#Stop-Veto) 
+[Random Map](#Random-Map) | [CSGO Stats](#CSGO-Stats)
 
 ### Coinflip
 
@@ -61,7 +61,7 @@ Aliases: coinflip
 
 Usable in public and private channels
 
-### MapVeto
+### Map Veto
 
 Starts the CSGO Map Veto System
 
@@ -89,7 +89,7 @@ Usable in public channels
 start <mapName>
 ```
 
-### StopVeto
+### Stop Veto
 
 Stops the current veto
 
@@ -97,7 +97,7 @@ Aliases: stopveto
 
 Usable in public channels
 
-### RandomMap
+### Random Map
 
 Selects a random map of the active duty pool
 
@@ -105,7 +105,7 @@ Aliases: randommap
 
 Usable in public and private channels
 
-### CSGOStats
+### CSGO Stats
 
 Grabs CSGO data from [Steam](https://steampowered.com/)
 
