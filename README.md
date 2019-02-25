@@ -126,5 +126,5 @@ The following settings can be set globally:
 Setting name | default | description
 ---|---|---
 BOT_ENABLED | false | Enables the bot<br/> This must be set to true in order to run the bot
-BOT_TOKEN | "BOT_TOKEN" | Token used to login to discord
+BOT_TOKEN | "BOT_TOKEN" | [Token used to login to Discord](https://discordapp.com/developers/applications/)
 STEAM_API_KEY | "STEAM_API_KEY" | [Steam API Key](https://steamcommunity.com/dev/apikey) to access CSGO Data
