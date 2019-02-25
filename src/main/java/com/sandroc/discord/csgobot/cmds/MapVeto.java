@@ -4,6 +4,8 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 import com.jagrosh.jdautilities.examples.doc.Author;
+import com.sandroc.discord.csgobot.ILanding;
+import com.sandroc.discord.csgobot.Landing;
 import com.sandroc.discord.csgobot.data.Constants;
 import com.sandroc.discord.csgobot.utils.FileUtils;
 import com.sandroc.discord.csgobot.utils.MessageUtils;
@@ -18,8 +20,9 @@ import java.util.Arrays;
 )
 @Author("SandroC")
 public class MapVeto extends Command {
+    private final ILanding landing;
 
-    public MapVeto() {
+    public MapVeto(ILanding landing) {
         this.name = "start";
         this.help = "starts a new veto";
         this.cooldown = 120;
@@ -28,6 +31,7 @@ public class MapVeto extends Command {
         this.userPermissions = new Permission[]{ Permission.MANAGE_CHANNEL };
         this.botPermissions = new Permission[]{ Permission.MESSAGE_WRITE };
         this.guildOnly = true;
+        this.landing = new Landing();
     }
 
     @Override
@@ -35,16 +39,16 @@ public class MapVeto extends Command {
         String[] items = event.getArgs().split("\\s+");
 
         if (items.length < 3) {
-            MessageUtils.sendMessage(event, "This command requires 3 Arguments.\nExample: !start [bo1/bo2/bo3/bo5] [@captainOne] [@captainTwo]");
+            this.landing.getMessageUtils().sendMessage(event, "This command requires 3 Arguments.\nExample: !start [bo1/bo2/bo3/bo5] [@captainOne] [@captainTwo]");
             return;
         }
         if (items[0].length() > 3) {
-            MessageUtils.sendMessage(event, "The first Argument must be BO1, BO2, BO3 or BO5.");
+            this.landing.getMessageUtils().sendMessage(event, "The first Argument must be BO1, BO2, BO3 or BO5.");
             return;
         }
 
         if (Boolean.parseBoolean(FileUtils.getProperty(event.getGuild().getId(), "vetoInProgress"))) {
-            MessageUtils.sendMessage(event, "A Veto is already in Progress");
+            this.landing.getMessageUtils().sendMessage(event, "A Veto is already in Progress");
             return;
         }
 
@@ -74,7 +78,7 @@ public class MapVeto extends Command {
         FileUtils.writeProperty(event.getGuild().getId(), "vetoIndex", String.valueOf(0));
         FileUtils.writeProperty(event.getGuild().getId(), "pickedMaps", String.valueOf((String[]) null));
 
-        MessageUtils.sendMessage(event, new EmbedBuilder()
+        this.landing.getMessageUtils().sendMessage(event, new EmbedBuilder()
                 .setTitle("Map Veto Has Started!")
                 .setDescription("Type !veto [mapname] to ban any of the following maps:")
                 .addField("Maps", FileUtils.getProperty(event.getGuild().getId(), "maps"), true)
