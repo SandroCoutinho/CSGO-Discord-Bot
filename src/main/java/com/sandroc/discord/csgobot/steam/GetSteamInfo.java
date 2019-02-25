@@ -2,12 +2,13 @@ package com.sandroc.discord.csgobot.steam;
 
 import com.google.gson.Gson;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import com.sandroc.discord.csgobot.ILanding;
 import com.sandroc.discord.csgobot.steam.stats.csgo.CSGOResponse;
 import com.sandroc.discord.csgobot.steam.stats.csgo.CsgoStats;
 import com.sandroc.discord.csgobot.steam.stats.csgo.PlayerStats;
 import com.sandroc.discord.csgobot.steam.stats.steam.Players;
 import com.sandroc.discord.csgobot.steam.stats.steam.SteamResponse;
-import com.sandroc.discord.csgobot.utils.MessageUtils;
+import com.sandroc.discord.csgobot.utils.FileUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,10 +16,17 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 public class GetSteamInfo {
+    private static ILanding landing;
+
+    public GetSteamInfo(ILanding landing) {
+        GetSteamInfo.landing = landing;
+    }
 
     private static String getSteamId(String name) {
         try {
-            String json = readUrl(URLConstants.GET_USER_STEAMID + name);
+            System.out.println(String.format(URLConstants.GET_USER_STEAMID, FileUtils.getProperty("default", "steamAPIKey"), name));
+
+            String json = readUrl(String.format(URLConstants.GET_USER_STEAMID, FileUtils.getProperty("default", "steamAPIKey"), name));
 
             Gson         gson       = new Gson();
             CSGOResponse gsonOutput = gson.fromJson(json, CSGOResponse.class);
@@ -39,11 +47,13 @@ public class GetSteamInfo {
                 steamID = getSteamId(steamID);
             }
             if (steamID.equalsIgnoreCase("failed")) {
-                MessageUtils.sendMessage(event, "Steam is currently down!");
+                landing.getMessageUtils().sendMessage(event, "Steam is currently down!");
                 return null;
             }
 
-            String json = readUrl(URLConstants.GET_STEAM_INFO + steamID);
+            System.out.println(String.format(URLConstants.GET_STEAM_INFO, FileUtils.getProperty("default", "steamAPIKey"), steamID));
+
+            String json = readUrl(String.format(URLConstants.GET_STEAM_INFO, FileUtils.getProperty("default", "steamAPIKey"), steamID));
 
             Gson gson = new Gson();
 
@@ -60,7 +70,9 @@ public class GetSteamInfo {
                 name = getSteamId(name);
             }
 
-            String json = readUrl(URLConstants.GET_USER_STATS + name);
+            System.out.println(String.format(URLConstants.GET_USER_STATS, FileUtils.getProperty("default", "steamAPIKey"), name));
+
+            String json = readUrl(String.format(URLConstants.GET_USER_STATS, FileUtils.getProperty("default", "steamAPIKey"), name));
 
             Gson gson = new Gson();
             return gson.fromJson(json, PlayerStats.class).playerstats;

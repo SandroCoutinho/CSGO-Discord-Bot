@@ -4,16 +4,25 @@ import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sandroc.discord.csgobot.cmds.*;
 import com.sandroc.discord.csgobot.utils.FileUtils;
+import com.sandroc.discord.csgobot.utils.MessageUtils;
+import com.sandroc.discord.csgobot.utils.Methods;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class Landing {
+public class Landing implements ILanding {
+    private static Landing      instance;
+    private final  Methods      methods;
+    private final  MessageUtils messageUtils;
+
+    public Landing() {
+        this.methods = new Methods();
+        this.messageUtils = new MessageUtils(this);
+    }
 
     public static void main(String[] args) throws Exception {
         if (!Files.exists(Paths.get("configs/default.settings"))) {
@@ -36,16 +45,16 @@ public class Landing {
 
         client.addCommands(
                 // INFORMATION COMMANDS //
-                new SteamStats(),
+                new SteamStats(getInstance()),
 
                 // CHANCE COMMANDS //
-                new Coinflip(),
-                new RandomMap(),
+                new Coinflip(getInstance()),
+                new RandomMap(getInstance()),
 
                 // VETO COMMANDS //
-                new MapVeto(),
-                new Veto(),
-                new StopVeto()
+                new MapVeto(getInstance()),
+                new Veto(getInstance()),
+                new StopVeto(getInstance())
         );
 
         new JDABuilder(AccountType.BOT)
@@ -53,6 +62,23 @@ public class Landing {
                 .setStatus(OnlineStatus.DO_NOT_DISTURB)
                 .addEventListener(eventWaiter)
                 .addEventListener(client.build())
-                .buildAsync();
+                .build();
+    }
+
+    @Override
+    public Methods getMethods() {
+        return this.methods;
+    }
+
+    @Override
+    public MessageUtils getMessageUtils() {
+        return this.messageUtils;
+    }
+
+    public static synchronized Landing getInstance() {
+        if (instance == null) {
+            instance = new Landing();
+        }
+        return instance;
     }
 }

@@ -6,6 +6,7 @@ import com.sandroc.discord.csgobot.steam.GetSteamInfo;
 import com.sandroc.discord.csgobot.steam.stats.csgo.GameStats;
 import com.sandroc.discord.csgobot.steam.stats.steam.SteamInfo;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.MessageChannel;
 
 import java.awt.*;
 import java.text.NumberFormat;
@@ -13,15 +14,15 @@ import java.util.*;
 
 public class Methods {
 
-    public static String capitalizeSentence(String input) {
+    public String capitalizeSentence(String input) {
         return input.substring(0, 1).toUpperCase() + input.substring(1);
     }
 
-    private static int minutesToHours(String minutes) {
+    private int minutesToHours(String minutes) {
         return Integer.parseInt(minutes) / 60 / 60;
     }
 
-    private static String getMostPlayedMap(GameStats[] stats) {
+    private String getMostPlayedMap(GameStats[] stats) {
         HashMap<String, Integer> maps         = new HashMap<>();
         String                   totalWinsMap = "total_wins_map_";
 
@@ -31,14 +32,13 @@ public class Methods {
             }
         }
 
-        int maxValue = Collections.max(maps.values());
-
-        String message = getKeysByValue(maps, maxValue).toString().substring(totalWinsMap.length() + 1);
+        int    maxValue = Collections.max(maps.values());
+        String message  = getKeysByValue(maps, maxValue).toString().substring(totalWinsMap.length() + 1);
 
         return capitalizeSentence(message.substring("de_".length()).replace("]", " (" + formatNumber(String.valueOf(maxValue)) + ")"));
     }
 
-    private static <T, E> Set<T> getKeysByValue(Map<T, E> map, E value) {
+    private <T, E> Set<T> getKeysByValue(Map<T, E> map, E value) {
         Set<T> keys = new HashSet<>();
         for (Map.Entry<T, E> entry : map.entrySet()) {
             if (Objects.equals(value, entry.getValue())) {
@@ -48,7 +48,7 @@ public class Methods {
         return keys;
     }
 
-    private static String formatNumber(final String message) {
+    private String formatNumber(final String message) {
         double             start = Double.parseDouble(message);
         final NumberFormat nf    = NumberFormat.getIntegerInstance();
         if (start >= 1000000000) {
@@ -62,29 +62,28 @@ public class Methods {
         return String.valueOf((int) start);
     }
 
-    public static String getImageForMap(String mapName) {
-        String map = mapName.toLowerCase();
-
-        if (map.contains("cache")) {
-            return "https://i.imgur.com/QzJmbXn.jpg";
-        } else if (map.contains("dust2")) {
-            return "https://i.imgur.com/CBPdOtM.jpg";
-        } else if (map.contains("inferno")) {
-            return "https://i.imgur.com/FkufBWo.jpg";
-        } else if (map.contains("mirage")) {
-            return "https://i.imgur.com/HdWXp2d.jpg";
-        } else if (map.contains("nuke")) {
-            return "https://i.imgur.com/wGNdBmz.jpg";
-        } else if (map.contains("overpass")) {
-            return "https://i.imgur.com/pHHc7ck.jpg";
-        } else if (map.contains("train")) {
-            return "https://i.imgur.com/3IZK0yH.jpg";
+    public String getImageForMap(String mapName) {
+        switch (mapName.toLowerCase()) {
+            case "de_cache":
+                return "https://i.imgur.com/QzJmbXn.jpg";
+            case "de_dust2":
+                return "https://i.imgur.com/CBPdOtM.jpg";
+            case "de_inferno":
+                return "https://i.imgur.com/FkufBWo.jpg";
+            case "de_mirage":
+                return "https://i.imgur.com/HdWXp2d.jpg";
+            case "de_nuke":
+                return "https://i.imgur.com/wGNdBmz.jpg";
+            case "de_overpass":
+                return "https://i.imgur.com/pHHc7ck.jpg";
+            case "de_train":
+                return "https://i.imgur.com/3IZK0yH.jpg";
+            default:
+                return "";
         }
-
-        return "";
     }
 
-    public static EmbedBuilder buildRandomMap() {
+    public EmbedBuilder buildRandomMap() {
         String map = Constants.ACTIVE_MAP_POOL[(int) Math.floor(Math.random() * Constants.ACTIVE_MAP_POOL.length)];
 
         return new EmbedBuilder()
@@ -93,7 +92,7 @@ public class Methods {
                 .setDescription("Your random map is " + capitalizeSentence(map.substring("de_".length())) + ".");
     }
 
-    public static EmbedBuilder buildCoinflip() {
+    public EmbedBuilder buildCoinflip() {
         double randomNumber = Math.random();
 
         return new EmbedBuilder()
@@ -103,7 +102,7 @@ public class Methods {
                 .setDescription("You throw a coin in the air and it lands on " + (randomNumber < 0.5 ? "CT" : "T") + " sided.");
     }
 
-    public static EmbedBuilder buildSteamInfo(CommandEvent event, String username) {
+    public EmbedBuilder buildSteamInfo(CommandEvent event, String username) {
         EmbedBuilder embedBuilder = null;
         try {
             HashMap<String, String> csgoStats = new HashMap<>();

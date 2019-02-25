@@ -4,8 +4,7 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 import com.jagrosh.jdautilities.examples.doc.Author;
-import com.sandroc.discord.csgobot.utils.MessageUtils;
-import com.sandroc.discord.csgobot.utils.Methods;
+import com.sandroc.discord.csgobot.ILanding;
 import net.dv8tion.jda.core.Permission;
 
 @CommandInfo(
@@ -14,18 +13,20 @@ import net.dv8tion.jda.core.Permission;
 )
 @Author("SandroC")
 public class Coinflip extends Command {
+    private ILanding landing;
 
-    public Coinflip() {
+    public Coinflip(ILanding landing) {
         this.name = "coinflip";
         this.help = "CT/T Side Selector";
         this.cooldown = 30;
         this.cooldownScope = CooldownScope.GUILD;
         this.botPermissions = new Permission[]{ Permission.MESSAGE_WRITE };
         this.guildOnly = false;
+        this.landing = landing;
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        MessageUtils.sendMessage(event, Methods.buildCoinflip());
+        this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().buildCoinflip());
     }
 }

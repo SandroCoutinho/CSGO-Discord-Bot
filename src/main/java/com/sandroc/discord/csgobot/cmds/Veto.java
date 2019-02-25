@@ -4,6 +4,8 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 import com.jagrosh.jdautilities.examples.doc.Author;
+import com.sandroc.discord.csgobot.ILanding;
+import com.sandroc.discord.csgobot.Landing;
 import com.sandroc.discord.csgobot.data.BestOf;
 import com.sandroc.discord.csgobot.data.Constants;
 import com.sandroc.discord.csgobot.utils.FileUtils;
@@ -12,6 +14,8 @@ import com.sandroc.discord.csgobot.utils.Methods;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.util.*;
 
 @CommandInfo(
@@ -20,13 +24,16 @@ import java.util.*;
 )
 @Author("SandroC")
 public class Veto extends Command {
+    private ILanding landing;
 
-    public Veto() {
+    public Veto(ILanding landing) {
         this.name = "veto";
         this.help = "pick/ban a map";
         this.arguments = "<map_name>";
         this.botPermissions = new Permission[]{ Permission.MESSAGE_WRITE };
         this.guildOnly = true;
+
+        this.landing = landing;
     }
 
     @Override
@@ -39,17 +46,17 @@ public class Veto extends Command {
             String selected = items[0].toLowerCase();
 
             if (!Boolean.parseBoolean(FileUtils.getProperty(event.getGuild().getId(), "vetoInProgress"))) {
-                MessageUtils.sendMessage(event, "There's currently no VETO in progress.");
+                this.landing.getMessageUtils().sendMessage(event, "There's currently no VETO in progress.");
                 return;
             }
             if (!event.getMessage().getAuthor().getAsMention().equals(FileUtils.getProperty(event.getGuild().getId(), "captainOne"))
                     && !event.getMessage().getAuthor().getAsMention().equals((FileUtils.getProperty(event.getGuild().getId(), "captainTwo")))) {
-                MessageUtils.sendMessage(event, "Only the team captains can perform the vetoes.");
+                this.landing.getMessageUtils().sendMessage(event, "Only the team captains can perform the vetoes.");
                 return;
             }
 
             if (FileUtils.getProperty(event.getGuild().getId(), "lastTurn").equalsIgnoreCase(event.getMessage().getAuthor().getAsMention())) {
-                MessageUtils.sendMessage(event, "It isn't your turn, let the other captain "
+                this.landing.getMessageUtils().sendMessage(event, "It isn't your turn, let the other captain "
                         + (Objects.requireNonNull(BestOf.getBestOfByNumber(FileUtils.getProperty(event.getGuild().getId(), "bestOf")))[Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "vetoIndex"))]
                         .equalsIgnoreCase("ban") ? "ban" : "pick")
                         + " a map.");
@@ -59,12 +66,12 @@ public class Veto extends Command {
             if (selected.equalsIgnoreCase("de_")
                     || selected.equalsIgnoreCase("de")
                     || selected.equalsIgnoreCase("d")) {
-                MessageUtils.sendMessage(event, "Please type the map name not just de.");
+                this.landing.getMessageUtils().sendMessage(event, "Please type the map name not just de.");
                 return;
             }
 
             if (selected.length() < 4) {
-                MessageUtils.sendMessage(event, "The map name must have at least 4 letters/numbers.");
+                this.landing.getMessageUtils().sendMessage(event, "The map name must have at least 4 letters/numbers.");
                 return;
             }
 
@@ -76,7 +83,7 @@ public class Veto extends Command {
             }
 
             if (count == 0) {
-                MessageUtils.sendMessage(event, "Please select a map from the following list: \n" + Arrays.toString(mapArray));
+                this.landing.getMessageUtils().sendMessage(event, "Please select a map from the following list: \n" + Arrays.toString(mapArray));
                 return;
             }
 
@@ -101,14 +108,14 @@ public class Veto extends Command {
 
                     FileUtils.changeProperty(event.getGuild().getId(), "lastTurn", event.getAuthor().getAsMention());
 
-                    MessageUtils.sendMessage(event, new EmbedBuilder()
-                            .setTitle(Methods.capitalizeSentence(map.substring("de_".length())) + " has been "
+                    this.landing.getMessageUtils().sendMessage(event, new EmbedBuilder()
+                            .setTitle(this.landing.getMethods().capitalizeSentence(map.substring("de_".length())) + " has been "
                                     + (Objects.requireNonNull(BestOf.getBestOfByNumber(FileUtils.getProperty(event.getGuild().getId(), "bestOf")))[Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "vetoIndex"))]
                                     .equalsIgnoreCase("ban") ? "banned" : "picked") + ".")
-                            .setImage(Methods.getImageForMap(map)));
+                            .setImage(this.landing.getMethods().getImageForMap(map)));
 
                     if (Objects.requireNonNull(BestOf.getBestOfByNumber(FileUtils.getProperty(event.getGuild().getId(), "bestOf")))[Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "vetoIndex"))].equalsIgnoreCase("pick")) {
-                        pickedMaps.add(Methods.capitalizeSentence(map.substring("de_".length())));
+                        pickedMaps.add(this.landing.getMethods().capitalizeSentence(map.substring("de_".length())));
                         FileUtils.changeProperty(event.getGuild().getId(), "pickedMaps", String.valueOf(pickedMaps));
                         pickedMaps.clear();
                         pickedMaps.addAll(Arrays.asList(FileUtils.getProperty(event.getGuild().getId(), "pickedMaps").split(", ")));
@@ -120,7 +127,7 @@ public class Veto extends Command {
 
                     if (maps.size() == 1
                             && pickedMaps.size() < Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "bestOf"))) {
-                        pickedMaps.add(Methods.capitalizeSentence(FileUtils.getProperty(event.getGuild().getId(), "maps").substring("[de_".length())));
+                        pickedMaps.add(this.landing.getMethods().capitalizeSentence(FileUtils.getProperty(event.getGuild().getId(), "maps").substring("[de_".length())));
                         FileUtils.changeProperty(event.getGuild().getId(), "pickedMaps", String.valueOf(pickedMaps));
                         pickedMaps.clear();
                         pickedMaps.addAll(Arrays.asList(FileUtils.getProperty(event.getGuild().getId(), "pickedMaps").split(", ")));
@@ -130,10 +137,10 @@ public class Veto extends Command {
                         String banOrPick = (Objects.requireNonNull(BestOf.getBestOfByNumber(FileUtils.getProperty(event.getGuild().getId(), "bestOf")))[Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "vetoIndex"))]
                                 .equalsIgnoreCase("ban") ? "ban" : "pick");
 
-                        MessageUtils.sendMessage(event, new EmbedBuilder()
+                        this.landing.getMessageUtils().sendMessage(event, new EmbedBuilder()
                                 .setThumbnail(banOrPick.equalsIgnoreCase("ban") ? Constants.BAN_URL : Constants.PICK_URL)
                                 .setTitle("Map Veto")
-                                .setDescription("Type !veto [mapname] to " + banOrPick + " any of the following maps:")
+                                .setDescription("Type !veto <mapName> to " + banOrPick + " any of the following maps:")
                                 .addField("Maps", String.valueOf(maps), false)
                                 .addField("Turn", (FileUtils.getProperty(event.getGuild().getId(), "lastTurn")
                                         .equalsIgnoreCase(FileUtils.getProperty(event.getGuild().getId(), "captainOne"))
@@ -141,14 +148,15 @@ public class Veto extends Command {
                                         : FileUtils.getProperty(event.getGuild().getId(), "captainOne")), false)
                         );
                     } else if (Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "bestOf")) == pickedMaps.size()) {
-                        MessageUtils.sendMessage(event, new EmbedBuilder()
+                        String mapName = "de_" + pickedMaps.get(0);
+
+                        this.landing.getMessageUtils().sendMessage(event, new EmbedBuilder()
                                 .setTitle("Map Veto")
                                 .setDescription("You will play on:")
                                 .addField(pickedMaps.size() == 1 ? "Map" : "Maps", Arrays.toString(pickedMaps.toArray()), true)
                                 .addField("Captains", FileUtils.getProperty(event.getGuild().getId(), "captainOne")
                                         + " " + FileUtils.getProperty(event.getGuild().getId(), "captainTwo"), true)
-                                .setImage(Methods.getImageForMap(pickedMaps.get(0)))
-                        );
+                                .setImage(this.landing.getMethods().getImageForMap(map)));
 
                         FileUtils.changeProperty(event.getGuild().getId(), "vetoInProgress", String.valueOf(false));
                     }
