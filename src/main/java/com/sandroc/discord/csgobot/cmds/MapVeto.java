@@ -8,7 +8,6 @@ import com.sandroc.discord.csgobot.ILanding;
 import com.sandroc.discord.csgobot.Landing;
 import com.sandroc.discord.csgobot.data.Constants;
 import com.sandroc.discord.csgobot.utils.FileUtils;
-import com.sandroc.discord.csgobot.utils.MessageUtils;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 
@@ -78,12 +77,11 @@ public class MapVeto extends Command {
         FileUtils.writeProperty(event.getGuild().getId(), "vetoIndex", String.valueOf(0));
         FileUtils.writeProperty(event.getGuild().getId(), "pickedMaps", String.valueOf((String[]) null));
 
-        this.landing.getMessageUtils().sendMessage(event, new EmbedBuilder()
+        this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().getFileForVeto(true), new EmbedBuilder()
                 .setTitle("Map Veto Has Started!")
                 .setDescription("Type !veto [mapname] to ban any of the following maps:")
                 .addField("Maps", FileUtils.getProperty(event.getGuild().getId(), "maps"), true)
                 .addField("Turn", FileUtils.getProperty(event.getGuild().getId(), "captainTwo"), true)
-                .setThumbnail(Constants.BAN_URL)
-        );
+                .setThumbnail("attachment://ban.png"));
     }
 }
