@@ -24,7 +24,7 @@ public class Veto extends Command {
     public Veto() {
         this.name = "veto";
         this.help = "pick/ban a map";
-        this.arguments = "<map_name>";
+        this.arguments = "<mapName>";
         this.botPermissions = new Permission[]{ Permission.MESSAGE_WRITE };
         this.guildOnly = true;
     }
