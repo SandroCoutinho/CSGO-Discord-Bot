@@ -4,6 +4,8 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import com.sandroc.discord.csgobot.ILanding;
 import net.dv8tion.jda.core.EmbedBuilder;
 
+import java.io.File;
+
 public class MessageUtils {
     private ILanding landing;
 
@@ -19,5 +21,9 @@ public class MessageUtils {
         if (embedBuilder != null) {
             event.getChannel().sendMessage(embedBuilder.build()).queue();
         }
+    }
+
+    public void sendMessage(CommandEvent event, File file, EmbedBuilder embedBuilder) {
+        event.getChannel().sendFile(file).embed(embedBuilder.build()).queue();
     }
 }

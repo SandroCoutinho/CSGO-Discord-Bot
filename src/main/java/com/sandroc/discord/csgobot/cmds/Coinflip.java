@@ -27,6 +27,9 @@ public class Coinflip extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().buildCoinflip());
+        double randomNumber = Math.random();
+
+        this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().getFileForCoinflip(randomNumber), this.landing.getMethods().buildCoinflip(randomNumber));
+        //this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().buildCoinflip(randomNumber));
     }
 }

@@ -1,14 +1,14 @@
 package com.sandroc.discord.csgobot.utils;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
-import com.sandroc.discord.csgobot.data.Constants;
 import com.sandroc.discord.csgobot.steam.GetSteamInfo;
 import com.sandroc.discord.csgobot.steam.stats.csgo.GameStats;
 import com.sandroc.discord.csgobot.steam.stats.steam.SteamInfo;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.MessageChannel;
 
 import java.awt.*;
+import java.io.File;
+import java.net.URISyntaxException;
 import java.text.NumberFormat;
 import java.util.*;
 
@@ -83,31 +83,80 @@ public class Methods {
         }
     }
 
-    public EmbedBuilder buildRandomMap() {
-        String map = Constants.ACTIVE_MAP_POOL[(int) Math.floor(Math.random() * Constants.ACTIVE_MAP_POOL.length)];
+    public File getFileForMap(String map) {
+        try {
+            switch (map.toLowerCase()) {
+                case "de_cache":
+                    return new File(this.getClass().getResource("/maps/de_cache.jpg").toURI());
+                case "de_dust2":
+                    return new File(this.getClass().getResource("/maps/de_dust2.jpg").toURI());
+                case "de_inferno":
+                    return new File(this.getClass().getResource("/maps/de_inferno.jpg").toURI());
+                case "de_mirage":
+                    return new File(this.getClass().getResource("/maps/de_mirage.jpg").toURI());
+                case "de_nuke":
+                    return new File(this.getClass().getResource("/maps/de_nuke.jpg").toURI());
+                case "de_overpass":
+                    return new File(this.getClass().getResource("/maps/de_overpass.jpg").toURI());
+                case "de_train":
+                    return new File(this.getClass().getResource("/maps/de_train.jpg").toURI());
+            }
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
+        return null;
+    }
+
+    public File getFileForCoinflip(double randomNumber) {
+        try {
+            if (randomNumber < 0.5) {
+                return new File(this.getClass().getResource("/coinflip/counter-terrorist.png").toURI());
+            } else {
+                return new File(this.getClass().getResource("/coinflip/terrorist.png").toURI());
+            }
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public File getFileForVeto(boolean ban) {
+        try {
+            if (ban) {
+                return new File(this.getClass().getResource("/veto/ban.png").toURI());
+            } else {
+                return new File(this.getClass().getResource("/veto/pick.png").toURI());
+            }
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public EmbedBuilder buildRandomMap(String map) {
         return new EmbedBuilder()
                 .setTitle("Random Map")
-                .setImage(getImageForMap(map))
+                .setImage("attachment://" + map + ".jpg")
                 .setDescription("Your random map is " + capitalizeSentence(map.substring("de_".length())) + ".");
     }
 
-    public EmbedBuilder buildCoinflip() {
-        double randomNumber = Math.random();
-
+    public EmbedBuilder buildCoinflip(double randomNumber) {
         return new EmbedBuilder()
                 .setTitle("Coinflip")
                 .setColor(randomNumber < 0.5 ? Color.BLUE : Color.ORANGE)
-                .setImage(randomNumber < 0.5 ? Constants.CT_COIN_URL : Constants.T_COIN_URL)
+                .setImage("attachment://" + (randomNumber < 0.5 ? "counter-terrorist" : "terrorist") + ".png")
                 .setDescription("You throw a coin in the air and it lands on " + (randomNumber < 0.5 ? "CT" : "T") + " sided.");
     }
 
     public EmbedBuilder buildSteamInfo(CommandEvent event, String username) {
         EmbedBuilder embedBuilder = null;
         try {
-            HashMap<String, String> csgoStats = new HashMap<>();
-            SteamInfo               steamInfo = Objects.requireNonNull(GetSteamInfo.getSteamInfo(event, username)).players[0];
-            GameStats[]             gameStats = Objects.requireNonNull(GetSteamInfo.getCSGOStats(username)).stats;
+            Map<String, String> csgoStats = new HashMap<>();
+            SteamInfo           steamInfo = Objects.requireNonNull(GetSteamInfo.getSteamInfo(event, username)).players[0];
+            GameStats[]         gameStats = Objects.requireNonNull(GetSteamInfo.getCSGOStats(username)).stats;
 
             for (GameStats stats : gameStats) {
                 csgoStats.put(stats.name, stats.value);

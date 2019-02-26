@@ -5,8 +5,7 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 import com.jagrosh.jdautilities.examples.doc.Author;
 import com.sandroc.discord.csgobot.ILanding;
-import com.sandroc.discord.csgobot.utils.MessageUtils;
-import com.sandroc.discord.csgobot.utils.Methods;
+import com.sandroc.discord.csgobot.data.Constants;
 import net.dv8tion.jda.core.Permission;
 
 @CommandInfo(
@@ -29,6 +28,8 @@ public class RandomMap extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().buildRandomMap());
+        String map = Constants.ACTIVE_MAP_POOL[(int) Math.floor(Math.random() * Constants.ACTIVE_MAP_POOL.length)];
+
+        this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().getFileForMap(map), this.landing.getMethods().buildRandomMap(map));
     }
 }
