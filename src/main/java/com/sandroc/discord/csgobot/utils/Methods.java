@@ -62,27 +62,6 @@ public class Methods {
         return String.valueOf((int) start);
     }
 
-    public String getImageForMap(String mapName) {
-        switch (mapName.toLowerCase()) {
-            case "de_cache":
-                return "https://i.imgur.com/QzJmbXn.jpg";
-            case "de_dust2":
-                return "https://i.imgur.com/CBPdOtM.jpg";
-            case "de_inferno":
-                return "https://i.imgur.com/FkufBWo.jpg";
-            case "de_mirage":
-                return "https://i.imgur.com/HdWXp2d.jpg";
-            case "de_nuke":
-                return "https://i.imgur.com/wGNdBmz.jpg";
-            case "de_overpass":
-                return "https://i.imgur.com/pHHc7ck.jpg";
-            case "de_train":
-                return "https://i.imgur.com/3IZK0yH.jpg";
-            default:
-                return "";
-        }
-    }
-
     public File getFileForMap(String map) {
         try {
             switch (map.toLowerCase()) {

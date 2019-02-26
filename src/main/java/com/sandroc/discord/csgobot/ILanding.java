@@ -6,5 +6,6 @@ import com.sandroc.discord.csgobot.utils.Methods;
 public interface ILanding {
 
     Methods getMethods();
+
     MessageUtils getMessageUtils();
 }

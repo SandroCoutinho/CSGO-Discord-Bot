@@ -65,6 +65,14 @@ public class Landing implements ILanding {
                 .build();
     }
 
+    public static synchronized Landing getInstance() {
+        if (instance == null) {
+            instance = new Landing();
+        }
+        
+        return instance;
+    }
+
     @Override
     public Methods getMethods() {
         return this.methods;
@@ -73,12 +81,5 @@ public class Landing implements ILanding {
     @Override
     public MessageUtils getMessageUtils() {
         return this.messageUtils;
-    }
-
-    public static synchronized Landing getInstance() {
-        if (instance == null) {
-            instance = new Landing();
-        }
-        return instance;
     }
 }

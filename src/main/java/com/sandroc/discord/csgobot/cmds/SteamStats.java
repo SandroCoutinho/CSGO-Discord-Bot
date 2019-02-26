@@ -5,8 +5,6 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 import com.jagrosh.jdautilities.examples.doc.Author;
 import com.sandroc.discord.csgobot.ILanding;
-import com.sandroc.discord.csgobot.utils.MessageUtils;
-import com.sandroc.discord.csgobot.utils.Methods;
 import net.dv8tion.jda.core.Permission;
 
 @CommandInfo(
