@@ -12,10 +12,6 @@ public enum BestOf {
         this.mode = mode;
     }
 
-    public String[] getMode() {
-        return mode;
-    }
-
     public static String[] getBestOfByNumber(String number) {
         for (BestOf bestOf : BestOf.values()) {
             if (bestOf.toString().contains(number)) {
@@ -24,6 +20,10 @@ public enum BestOf {
         }
 
         return null;
+    }
+
+    public String[] getMode() {
+        return mode;
     }
 
     @Override

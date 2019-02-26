@@ -1,17 +1,29 @@
 package com.sandroc.discord.csgobot.utils;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
+import com.sandroc.discord.csgobot.ILanding;
 import net.dv8tion.jda.core.EmbedBuilder;
 
-public class MessageUtils {
+import java.io.File;
 
-    public static void sendMessage(CommandEvent event, String message) {
-        event.getChannel().sendMessage(Methods.capitalizeSentence(message)).queue();
+public class MessageUtils {
+    private ILanding landing;
+
+    public MessageUtils(ILanding landing) {
+        this.landing = landing;
     }
 
-    public static void sendMessage(CommandEvent event, EmbedBuilder embedBuilder) {
+    public void sendMessage(CommandEvent event, String message) {
+        event.getChannel().sendMessage(this.landing.getMethods().capitalizeSentence(message)).queue();
+    }
+
+    public void sendMessage(CommandEvent event, EmbedBuilder embedBuilder) {
         if (embedBuilder != null) {
             event.getChannel().sendMessage(embedBuilder.build()).queue();
         }
+    }
+
+    public void sendMessage(CommandEvent event, File file, EmbedBuilder embedBuilder) {
+        event.getChannel().sendFile(file).embed(embedBuilder.build()).queue();
     }
 }

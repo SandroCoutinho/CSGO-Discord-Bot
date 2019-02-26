@@ -34,6 +34,11 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
     </build>
 
     <repositories>
@@ -59,7 +64,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>3.5.1_351</version>
+            <version>3.8.3_460</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
