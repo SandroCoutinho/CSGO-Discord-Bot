@@ -69,7 +69,7 @@ public class Landing implements ILanding {
         if (instance == null) {
             instance = new Landing();
         }
-        
+
         return instance;
     }
 
