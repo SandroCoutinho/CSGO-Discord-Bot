@@ -57,22 +57,6 @@ public class MapVeto extends Command {
         FileUtils.writeProperty(event.getGuild().getId(), "vetoInProgress", String.valueOf(true));
         FileUtils.writeProperty(event.getGuild().getId(), "maps", Arrays.toString(Constants.ACTIVE_MAP_POOL));
         FileUtils.writeProperty(event.getGuild().getId(), "bestOf", items[0].substring("bo".length()));
-
-        /*switch (FileUtils.getProperty(event.getGuild().getId(), "bestOf")) {
-            case "1":
-                FileUtils.writeProperty(event.getGuild().getId(), "veto", Arrays.toString(Constants.BEST_OF_1));
-                break;
-            case "2":
-                FileUtils.writeProperty(event.getGuild().getId(), "veto", Arrays.toString(Constants.BEST_OF_2));
-                break;
-            case "3":
-                FileUtils.writeProperty(event.getGuild().getId(), "veto", Arrays.toString(Constants.BEST_OF_3));
-                break;
-            case "5":
-                FileUtils.writeProperty(event.getGuild().getId(), "veto", Arrays.toString(Constants.BEST_OF_5));
-                break;
-        }*/
-
         FileUtils.writeProperty(event.getGuild().getId(), "captainOne", items[1]);
         FileUtils.writeProperty(event.getGuild().getId(), "captainTwo", items[2]);
         FileUtils.writeProperty(event.getGuild().getId(), "lastTurn", items[1]);

@@ -36,7 +36,6 @@ public class Veto extends Command {
             String[] mapArray    = FileUtils.getProperty(event.getGuild().getId(), "maps").split(", ");
             String[] pickedArray = FileUtils.getProperty(event.getGuild().getId(), "pickedMaps").split(", ");
             String[] items       = event.getArgs().split("\\s+");
-
             String selected = items[0].toLowerCase();
 
             if (!Boolean.parseBoolean(FileUtils.getProperty(event.getGuild().getId(), "vetoInProgress"))) {

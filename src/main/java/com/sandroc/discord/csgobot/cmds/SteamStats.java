@@ -28,7 +28,6 @@ public class SteamStats extends Command {
 
     @Override
     public void execute(CommandEvent event) {
-        System.out.println(landing);
         this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().buildSteamInfo(event, event.getArgs().split("\\s+")[0]));
     }
 }
