@@ -46,9 +46,11 @@ public class MapVeto extends Command {
             return;
         }
 
-        if (Boolean.parseBoolean(FileUtils.getProperty(event.getGuild().getId(), "vetoInProgress"))) {
-            this.landing.getMessageUtils().sendMessage(event, "A Veto is already in Progress");
-            return;
+        if (FileUtils.configFileExists(event.getGuild().getId())) {
+            if (Boolean.parseBoolean(FileUtils.getProperty(event.getGuild().getId(), "vetoInProgress"))) {
+                this.landing.getMessageUtils().sendMessage(event, "A Veto is already in Progress");
+                return;
+            }
         }
 
         FileUtils.writeProperty(event.getGuild().getId(), "lastVeto", String.valueOf(System.currentTimeMillis()));
