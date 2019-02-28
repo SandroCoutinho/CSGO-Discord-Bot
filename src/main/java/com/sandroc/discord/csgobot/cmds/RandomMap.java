@@ -23,6 +23,7 @@ public class RandomMap extends Command {
         this.help = "Selects a random map of the active duty pool";
         this.botPermissions = new Permission[]{ Permission.MESSAGE_WRITE };
         this.guildOnly = false;
+
         this.landing = landing;
     }
 
