@@ -55,7 +55,6 @@ public class MapVeto extends Command {
             }
         }
 
-        FileUtils.writeProperty(event.getGuild().getId(), "lastVeto", String.valueOf(System.currentTimeMillis()));
         FileUtils.writeProperty(event.getGuild().getId(), "vetoInProgress", String.valueOf(true));
         FileUtils.writeProperty(event.getGuild().getId(), "maps", Arrays.toString(Constants.ACTIVE_MAP_POOL));
         FileUtils.writeProperty(event.getGuild().getId(), "bestOf", items[0].substring("bo".length()));
