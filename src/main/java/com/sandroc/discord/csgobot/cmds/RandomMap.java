@@ -29,7 +29,6 @@ public class RandomMap extends Command {
     @Override
     protected void execute(CommandEvent event) {
         String map = Constants.ACTIVE_MAP_POOL[(int) Math.floor(Math.random() * Constants.ACTIVE_MAP_POOL.length)];
-
         this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().getFileForMap(map), this.landing.getMethods().buildRandomMap(map));
     }
 }

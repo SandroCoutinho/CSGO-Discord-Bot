@@ -17,20 +17,18 @@ import java.net.URL;
 
 public class GetSteamInfo {
     private static ILanding landing;
+    private static Gson     gson;
 
     public GetSteamInfo(ILanding landing) {
         GetSteamInfo.landing = landing;
+        GetSteamInfo.gson = new Gson();
     }
 
     private static String getSteamId(String name) {
         try {
-            System.out.println(String.format(URLConstants.GET_USER_STEAMID, FileUtils.getProperty("default", "steamAPIKey"), name));
-
             String json = readUrl(String.format(URLConstants.GET_USER_STEAMID, FileUtils.getProperty("default", "steamAPIKey"), name));
 
-            Gson         gson       = new Gson();
             CSGOResponse gsonOutput = gson.fromJson(json, CSGOResponse.class);
-
             if (gsonOutput.response.success == 1) {
                 return gsonOutput.response.steamid;
             }
@@ -51,11 +49,7 @@ public class GetSteamInfo {
                 return null;
             }
 
-            System.out.println(String.format(URLConstants.GET_STEAM_INFO, FileUtils.getProperty("default", "steamAPIKey"), steamID));
-
             String json = readUrl(String.format(URLConstants.GET_STEAM_INFO, FileUtils.getProperty("default", "steamAPIKey"), steamID));
-
-            Gson gson = new Gson();
 
             return gson.fromJson(json, SteamResponse.class).response;
         } catch (Exception ignored) {
@@ -70,11 +64,8 @@ public class GetSteamInfo {
                 name = getSteamId(name);
             }
 
-            System.out.println(String.format(URLConstants.GET_USER_STATS, FileUtils.getProperty("default", "steamAPIKey"), name));
-
             String json = readUrl(String.format(URLConstants.GET_USER_STATS, FileUtils.getProperty("default", "steamAPIKey"), name));
 
-            Gson gson = new Gson();
             return gson.fromJson(json, PlayerStats.class).playerstats;
         } catch (IOException ignored) {
         }
