@@ -87,8 +87,6 @@ public class Veto extends Command {
                 return;
             }
 
-            FileUtils.changeProperty(event.getGuild().getId(), "lastVeto", String.valueOf(System.currentTimeMillis()));
-
             ArrayList<String> maps       = new ArrayList<>(Arrays.asList(mapArray));
             List<String>      pickedMaps = new ArrayList<>(Arrays.asList(pickedArray));
 
