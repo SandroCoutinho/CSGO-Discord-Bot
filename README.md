@@ -12,7 +12,7 @@ A Java bot for [Discord](https://discordapp.com/) using the [JDA library](https:
 ## Run the bot yourself
 
 * [Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-* [git](https://git-scm.com/)
+* [Git](https://git-scm.com/)
 * [Maven](https://maven.apache.org/)
 
 1. Clone the project with git
@@ -32,8 +32,8 @@ A Java bot for [Discord](https://discordapp.com/) using the [JDA library](https:
 
     You can launch the bot with the following command:
     `java -jar csgobot-{VERSION}.jar`
-    On first launch, It will generate an `default.settings` file and exit.<br>
-    You'll have to edit the config file and add in your token, database configuration, etc.
+    On first launch, It will generate a `default.settings` file and exit.<br>
+    You'll have to edit the config file and add in your token, Steam API key, etc.
 
 
 ## Usage
@@ -49,9 +49,9 @@ Current list of all available commands.
 
 Commands | |
 --- | --- |
-[Coinflip](#Coinflip) | [Map Veto](#MapVeto)
-[Veto](#Veto)  |[Stop Veto](#StopVeto) 
-[Random Map](#RandomMap) | [CSGO Stats](#CSGOStats)
+[Coinflip](#Coinflip) | [Map Veto](#Map-Veto)
+[Veto](#Veto)  |[Stop Veto](#Stop-Veto) 
+[Random Map](#Random-Map) | [CSGO Stats](#CSGO-Stats)
 
 ### Coinflip
 
@@ -61,7 +61,7 @@ Aliases: coinflip
 
 Usable in public and private channels
 
-### MapVeto
+### Map Veto
 
 Starts the CSGO Map Veto System
 
@@ -89,7 +89,7 @@ Usable in public channels
 start <mapName>
 ```
 
-### StopVeto
+### Stop Veto
 
 Stops the current veto
 
@@ -97,7 +97,7 @@ Aliases: stopveto
 
 Usable in public channels
 
-### RandomMap
+### Random Map
 
 Selects a random map of the active duty pool
 
@@ -105,7 +105,7 @@ Aliases: randommap
 
 Usable in public and private channels
 
-### CSGOStats
+### CSGO Stats
 
 Grabs CSGO data from [Steam](https://steampowered.com/)
 
@@ -126,5 +126,5 @@ The following settings can be set globally:
 Setting name | default | description
 ---|---|---
 BOT_ENABLED | false | Enables the bot<br/> This must be set to true in order to run the bot
-BOT_TOKEN | "BOT_TOKEN" | Token used to login to discord
+BOT_TOKEN | "BOT_TOKEN" | [Token used to login to Discord](https://discordapp.com/developers/applications/)
 STEAM_API_KEY | "STEAM_API_KEY" | [Steam API Key](https://steamcommunity.com/dev/apikey) to access CSGO Data
