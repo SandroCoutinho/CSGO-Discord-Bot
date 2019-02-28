@@ -1,5 +1,6 @@
 package com.sandroc.discord.csgobot.utils;
 
+import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.sandroc.discord.csgobot.steam.GetSteamInfo;
 import com.sandroc.discord.csgobot.steam.stats.csgo.GameStats;
@@ -148,5 +149,13 @@ public class Methods {
         }
 
         return embedBuilder;
+    }
+
+    public boolean isMatchingNumberOfArgs(String[] command, String[] items) {
+        if (items[0].length() > 1) {
+            return items.length == command.length;
+        }
+
+        return false;
     }
 }

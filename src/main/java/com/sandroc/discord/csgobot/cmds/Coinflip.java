@@ -22,6 +22,7 @@ public class Coinflip extends Command {
         this.cooldownScope = CooldownScope.GUILD;
         this.botPermissions = new Permission[]{ Permission.MESSAGE_WRITE };
         this.guildOnly = false;
+
         this.landing = landing;
     }
 

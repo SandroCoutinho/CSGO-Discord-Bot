@@ -5,7 +5,6 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 import com.jagrosh.jdautilities.examples.doc.Author;
 import com.sandroc.discord.csgobot.ILanding;
-import com.sandroc.discord.csgobot.Landing;
 import com.sandroc.discord.csgobot.data.Constants;
 import com.sandroc.discord.csgobot.utils.FileUtils;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -30,17 +29,20 @@ public class MapVeto extends Command {
         this.userPermissions = new Permission[]{ Permission.MANAGE_CHANNEL };
         this.botPermissions = new Permission[]{ Permission.MESSAGE_WRITE };
         this.guildOnly = true;
-        this.landing = new Landing();
+        this.landing = landing;
     }
 
     @Override
     protected void execute(CommandEvent event) {
         String[] items = event.getArgs().split("\\s+");
+        String[] requiredArgs = this.getArguments().split("\\s+");
 
-        if (items.length < 3) {
-            this.landing.getMessageUtils().sendMessage(event, "This command requires 3 Arguments.\nExample: !start [bo1/bo2/bo3/bo5] [@captainOne] [@captainTwo]");
+        if (!this.landing.getMethods().isMatchingNumberOfArgs(requiredArgs, items)) {
+            this.landing.getMessageUtils().sendMessage(event, "This command requires " +
+                    requiredArgs.length + " " + (requiredArgs.length == 1 ? "Argument" : "Arguments") + ".\nExample: !" + this.getName() + " " + this.getArguments());
             return;
         }
+
         if (items[0].length() > 3) {
             this.landing.getMessageUtils().sendMessage(event, "The first Argument must be BO1, BO2, BO3 or BO5.");
             return;
