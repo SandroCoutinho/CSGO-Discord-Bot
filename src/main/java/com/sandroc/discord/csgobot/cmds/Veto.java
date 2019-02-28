@@ -36,7 +36,14 @@ public class Veto extends Command {
             String[] mapArray    = FileUtils.getProperty(event.getGuild().getId(), "maps").split(", ");
             String[] pickedArray = FileUtils.getProperty(event.getGuild().getId(), "pickedMaps").split(", ");
             String[] items       = event.getArgs().split("\\s+");
+            String[] requiredArgs = this.getArguments().split("\\s+");
             String selected = items[0].toLowerCase();
+
+            if (!this.landing.getMethods().isMatchingNumberOfArgs(requiredArgs, items)) {
+                this.landing.getMessageUtils().sendMessage(event, "This command requires " +
+                        requiredArgs.length + " " + (requiredArgs.length == 1 ? "Argument" : "Arguments") + ".\nExample: !" + this.getName() + " " + this.getArguments());
+                return;
+            }
 
             if (!Boolean.parseBoolean(FileUtils.getProperty(event.getGuild().getId(), "vetoInProgress"))) {
                 this.landing.getMessageUtils().sendMessage(event, "There's currently no VETO in progress.");

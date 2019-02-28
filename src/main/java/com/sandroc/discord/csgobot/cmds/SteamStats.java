@@ -23,11 +23,21 @@ public class SteamStats extends Command {
         this.arguments = "<steamProfileId/steamProfileName>";
         this.botPermissions = new Permission[]{ Permission.MESSAGE_WRITE };
         this.guildOnly = false;
+
         this.landing = landing;
     }
 
     @Override
     public void execute(CommandEvent event) {
-        this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().buildSteamInfo(event, event.getArgs().split("\\s+")[0]));
+        String[] items = event.getArgs().split("\\s+");
+        String[] requiredArgs = this.getArguments().split("\\s+");
+
+        if (!this.landing.getMethods().isMatchingNumberOfArgs(requiredArgs, items)) {
+            this.landing.getMessageUtils().sendMessage(event, "This command requires " +
+                    requiredArgs.length + " " + (requiredArgs.length == 1 ? "Argument" : "Arguments") + ".\nExample: !" + this.getName() + " " + this.getArguments());
+            return;
+        }
+
+        this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().buildSteamInfo(event, items[0]));
     }
 }

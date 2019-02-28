@@ -17,18 +17,16 @@ import java.net.URL;
 
 public class GetSteamInfo {
     private static ILanding landing;
-    private static Gson     gson;
 
     public GetSteamInfo(ILanding landing) {
         GetSteamInfo.landing = landing;
-        GetSteamInfo.gson = new Gson();
     }
 
     private static String getSteamId(String name) {
         try {
             String json = readUrl(String.format(URLConstants.GET_USER_STEAMID, FileUtils.getProperty("default", "steamAPIKey"), name));
 
-            CSGOResponse gsonOutput = gson.fromJson(json, CSGOResponse.class);
+            CSGOResponse gsonOutput = new Gson().fromJson(json, CSGOResponse.class);
             if (gsonOutput.response.success == 1) {
                 return gsonOutput.response.steamid;
             }
@@ -51,7 +49,7 @@ public class GetSteamInfo {
 
             String json = readUrl(String.format(URLConstants.GET_STEAM_INFO, FileUtils.getProperty("default", "steamAPIKey"), steamID));
 
-            return gson.fromJson(json, SteamResponse.class).response;
+            return new Gson().fromJson(json, SteamResponse.class).response;
         } catch (Exception ignored) {
         }
 
@@ -66,7 +64,7 @@ public class GetSteamInfo {
 
             String json = readUrl(String.format(URLConstants.GET_USER_STATS, FileUtils.getProperty("default", "steamAPIKey"), name));
 
-            return gson.fromJson(json, PlayerStats.class).playerstats;
+            return new Gson().fromJson(json, PlayerStats.class).playerstats;
         } catch (IOException ignored) {
         }
 

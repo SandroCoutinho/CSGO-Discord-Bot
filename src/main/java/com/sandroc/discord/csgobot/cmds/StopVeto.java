@@ -24,6 +24,7 @@ public class StopVeto extends Command {
         this.userPermissions = new Permission[]{ Permission.KICK_MEMBERS };
         this.botPermissions = new Permission[]{ Permission.MESSAGE_WRITE };
         this.guildOnly = true;
+
         this.landing = landing;
     }
 

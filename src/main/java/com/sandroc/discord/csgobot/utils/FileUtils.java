@@ -6,13 +6,14 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 public class FileUtils {
-    private static Properties properties = new Properties();
+    private static Properties guildProperties   = new Properties();
+    private static Properties defaultProperties = new Properties();
 
     public static void changeProperty(String guild, String key, String value) {
         try {
-            properties.load(new FileInputStream("configs/" + guild + ".settings"));
-            properties.setProperty(key, value);
-            properties.store(new FileOutputStream("configs/" + guild + ".settings"), null);
+            guildProperties.load(new FileInputStream("configs/" + guild + ".settings"));
+            guildProperties.setProperty(key, value);
+            guildProperties.store(new FileOutputStream("configs/" + guild + ".settings"), null);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -24,9 +25,9 @@ public class FileUtils {
                 new File("configs/" + guild + ".settings").createNewFile();
             }
 
-            properties.load(new FileInputStream("configs/" + guild + ".settings"));
-            properties.setProperty(key, value);
-            properties.store(new FileOutputStream("configs/" + guild + ".settings"), null);
+            guildProperties.load(new FileInputStream("configs/" + guild + ".settings"));
+            guildProperties.setProperty(key, value);
+            guildProperties.store(new FileOutputStream("configs/" + guild + ".settings"), null);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -34,13 +35,18 @@ public class FileUtils {
 
     public static String getProperty(String guild, String key) {
         try {
-            properties.load(new FileInputStream("configs/" + guild + ".settings"));
-            if (key.equalsIgnoreCase("maps")
-                    || key.equalsIgnoreCase("pickedMaps")) {
-                return properties.getProperty(key).replace("[", "").replace("]", "");
-            }
+            if (guild.equalsIgnoreCase("default")) {
+                defaultProperties.load(new FileInputStream("configs/default.settings"));
+                return defaultProperties.getProperty(key);
+            } else {
+                guildProperties.load(new FileInputStream("configs/" + guild + ".settings"));
+                if (key.equalsIgnoreCase("maps")
+                        || key.equalsIgnoreCase("pickedMaps")) {
+                    return guildProperties.getProperty(key).replace("[", "").replace("]", "");
+                }
 
-            return properties.getProperty(key);
+                return guildProperties.getProperty(key);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
