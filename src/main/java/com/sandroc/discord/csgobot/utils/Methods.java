@@ -64,22 +64,7 @@ public class Methods {
 
     public File getFileForMap(String map) {
         try {
-            switch (map.toLowerCase()) {
-                case "de_cache":
-                    return new File(this.getClass().getResource("/maps/de_cache.jpg").toURI());
-                case "de_dust2":
-                    return new File(this.getClass().getResource("/maps/de_dust2.jpg").toURI());
-                case "de_inferno":
-                    return new File(this.getClass().getResource("/maps/de_inferno.jpg").toURI());
-                case "de_mirage":
-                    return new File(this.getClass().getResource("/maps/de_mirage.jpg").toURI());
-                case "de_nuke":
-                    return new File(this.getClass().getResource("/maps/de_nuke.jpg").toURI());
-                case "de_overpass":
-                    return new File(this.getClass().getResource("/maps/de_overpass.jpg").toURI());
-                case "de_train":
-                    return new File(this.getClass().getResource("/maps/de_train.jpg").toURI());
-            }
+            return new File(this.getClass().getResource("/maps/" + map + ".jpg").toURI());
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }

@@ -61,4 +61,8 @@ public class FileUtils {
             e.printStackTrace();
         }
     }
+
+    public static boolean configFileExists(String guild) {
+        return Files.exists(Paths.get("configs/" + guild + ".settings"));
+    }
 }
