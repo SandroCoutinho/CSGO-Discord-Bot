@@ -30,7 +30,7 @@ public class Hltv extends Command {
             String[] items = event.getArgs().split("\\s+");
 
             if (items[0].equalsIgnoreCase("news")) {
-                News         news    = this.landing.getHLTVInfo().getNewsByIndex((items.length == 2 ? Integer.parseInt(items[1]) : 0));
+                News         news    = this.landing.getHLTVInfo().getNewsByIndex((items.length >= 2 ? Integer.parseInt(items[1]) : 0));
                 EmbedBuilder builder = new EmbedBuilder();
 
                 builder.setTitle(news.title);
