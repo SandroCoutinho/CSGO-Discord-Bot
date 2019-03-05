@@ -1,19 +1,28 @@
 package com.sandroc.discord.csgobot.utils;
 
-import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import com.sandroc.discord.csgobot.steam.GetSteamInfo;
+import com.sandroc.discord.csgobot.ILanding;
 import com.sandroc.discord.csgobot.steam.stats.csgo.GameStats;
 import com.sandroc.discord.csgobot.steam.stats.steam.SteamInfo;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.User;
 
 import java.awt.*;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.text.NumberFormat;
 import java.util.*;
 
 public class Methods {
+    private final ILanding landing;
+
+    public Methods(ILanding landing) {
+        this.landing = landing;
+    }
 
     public String capitalizeSentence(String input) {
         return input.substring(0, 1).toUpperCase() + input.substring(1);
@@ -21,6 +30,29 @@ public class Methods {
 
     private int minutesToHours(String minutes) {
         return Integer.parseInt(minutes) / 60 / 60;
+    }
+
+    public String readUrl(String urlString) throws IOException {
+        BufferedReader reader = null;
+        try {
+            URL url = new URL(urlString);
+            reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            StringBuilder buffer = new StringBuilder();
+            int           read;
+            char[]        chars  = new char[1024];
+            while ((read = reader.read(chars)) != -1) {
+                buffer.append(chars, 0, read);
+            }
+
+            return buffer.toString();
+        } catch (IOException ignored) {
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
+
+        return urlString;
     }
 
     private String getMostPlayedMap(GameStats[] stats) {
@@ -120,32 +152,35 @@ public class Methods {
         EmbedBuilder embedBuilder = null;
         try {
             Map<String, String> csgoStats = new HashMap<>();
-            SteamInfo           steamInfo = Objects.requireNonNull(GetSteamInfo.getSteamInfo(event, username)).players[0];
-            GameStats[]         gameStats = Objects.requireNonNull(GetSteamInfo.getCSGOStats(username)).stats;
+            SteamInfo           steamInfo = Objects.requireNonNull(this.landing.getSteamInfo().getSteamInfo(event, username)).players[0];
+            GameStats[]         gameStats = Objects.requireNonNull(this.landing.getSteamInfo().getCSGOStats(username)).stats;
 
-            for (GameStats stats : gameStats) {
-                csgoStats.put(stats.name, stats.value);
+            if (steamInfo != null) {
+                for (GameStats stats : gameStats) {
+                    csgoStats.put(stats.name, stats.value);
+                }
+
+                embedBuilder = new EmbedBuilder();
+
+                embedBuilder.setTitle(steamInfo.personaname);
+                embedBuilder.setColor(Color.BLUE);
+                embedBuilder.setThumbnail(steamInfo.avatarfull);
+
+                embedBuilder.setDescription("CSGO Stats");
+
+                embedBuilder.addField("Total MVPs", formatNumber(csgoStats.get("total_mvps")), true);
+                embedBuilder.addField("Game Time", minutesToHours(csgoStats.get("total_time_played")) + " Hrs", true);
+                embedBuilder.addField("Total Kills", formatNumber(csgoStats.get("total_kills")), true);
+                embedBuilder.addField("Total Deaths", formatNumber(csgoStats.get("total_deaths")), true);
+                embedBuilder.addField("Total Damage Done", formatNumber(csgoStats.get("total_damage_done")), true);
+                embedBuilder.addField("Total Knife Kills", formatNumber(csgoStats.get("total_kills_knife")), true);
+                embedBuilder.addField("Total Bombs Planted", formatNumber(csgoStats.get("total_planted_bombs")), true);
+                embedBuilder.addField("Total Bombs Defused", formatNumber(csgoStats.get("total_defused_bombs")), true);
+                embedBuilder.addField("Total Pistol Rounds Won", formatNumber(csgoStats.get("total_wins_pistolround")), true);
+                embedBuilder.addField("Most Played Map", getMostPlayedMap(gameStats), true);
             }
-
-            embedBuilder = new EmbedBuilder();
-
-            embedBuilder.setTitle(steamInfo.personaname);
-            embedBuilder.setColor(Color.BLUE);
-            embedBuilder.setThumbnail(steamInfo.avatarfull);
-
-            embedBuilder.setDescription("CSGO Stats");
-
-            embedBuilder.addField("Total MVPs", formatNumber(csgoStats.get("total_mvps")), true);
-            embedBuilder.addField("Game Time", minutesToHours(csgoStats.get("total_time_played")) + " Hrs", true);
-            embedBuilder.addField("Total Kills", formatNumber(csgoStats.get("total_kills")), true);
-            embedBuilder.addField("Total Deaths", formatNumber(csgoStats.get("total_deaths")), true);
-            embedBuilder.addField("Total Damage Done", formatNumber(csgoStats.get("total_damage_done")), true);
-            embedBuilder.addField("Total Knife Kills", formatNumber(csgoStats.get("total_kills_knife")), true);
-            embedBuilder.addField("Total Bombs Planted", formatNumber(csgoStats.get("total_planted_bombs")), true);
-            embedBuilder.addField("Total Bombs Defused", formatNumber(csgoStats.get("total_defused_bombs")), true);
-            embedBuilder.addField("Total Pistol Rounds Won", formatNumber(csgoStats.get("total_wins_pistolround")), true);
-            embedBuilder.addField("Most Played Map", getMostPlayedMap(gameStats), true);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return embedBuilder;
