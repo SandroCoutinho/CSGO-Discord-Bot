@@ -3,94 +3,74 @@ package com.sandroc.discord.csgobot.steam;
 import com.google.gson.Gson;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.sandroc.discord.csgobot.ILanding;
+import com.sandroc.discord.csgobot.data.Constants;
 import com.sandroc.discord.csgobot.steam.stats.csgo.CSGOResponse;
 import com.sandroc.discord.csgobot.steam.stats.csgo.CsgoStats;
 import com.sandroc.discord.csgobot.steam.stats.csgo.PlayerStats;
+import com.sandroc.discord.csgobot.steam.stats.csgo.SteamID;
 import com.sandroc.discord.csgobot.steam.stats.steam.Players;
 import com.sandroc.discord.csgobot.steam.stats.steam.SteamResponse;
 import com.sandroc.discord.csgobot.utils.FileUtils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 
 public class GetSteamInfo {
-    private static ILanding landing;
+    private ILanding landing;
 
     public GetSteamInfo(ILanding landing) {
-        GetSteamInfo.landing = landing;
+        this.landing = landing;
     }
 
-    private static String getSteamId(String name) {
+    private String getSteamId(String name) {
         try {
-            String json = readUrl(String.format(URLConstants.GET_USER_STEAMID, FileUtils.getProperty("default", "steamAPIKey"), name));
+            String  response      = this.landing.getMethods().readUrl(String.format(Constants.GET_USER_STEAMID, FileUtils.getProperty("default", "steamAPIKey"), name));
+            SteamID steamResponse = new Gson().fromJson(response, CSGOResponse.class).response;
 
-            CSGOResponse gsonOutput = new Gson().fromJson(json, CSGOResponse.class);
-            if (gsonOutput.response.success == 1) {
-                return gsonOutput.response.steamid;
+            if (steamResponse.success == 1) {
+                return steamResponse.steamid;
             }
         } catch (Exception e) {
+            e.printStackTrace();
+
             return "Failed";
         }
 
         return name;
     }
 
-    public static Players getSteamInfo(CommandEvent event, String steamID) {
+    public Players getSteamInfo(CommandEvent event, String steamID) {
         try {
             if (!steamID.matches("[0-9]+")) {
                 steamID = getSteamId(steamID);
             }
             if (steamID.equalsIgnoreCase("failed")) {
-                landing.getMessageUtils().sendMessage(event, "Steam is currently down!");
+                this.landing.getMessageUtils().sendMessage(event, "Steam is currently down!");
                 return null;
             }
 
-            String json = readUrl(String.format(URLConstants.GET_STEAM_INFO, FileUtils.getProperty("default", "steamAPIKey"), steamID));
+            String response = this.landing.getMethods().readUrl(String.format(Constants.GET_STEAM_INFO, FileUtils.getProperty("default", "steamAPIKey"), steamID));
 
-            return new Gson().fromJson(json, SteamResponse.class).response;
-        } catch (Exception ignored) {
+            return new Gson().fromJson(response, SteamResponse.class).response;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return null;
     }
 
-    public static CsgoStats getCSGOStats(String name) {
+    public CsgoStats getCSGOStats(String name) {
         try {
             if (!name.matches("[0-9]+")) {
                 name = getSteamId(name);
             }
 
-            String json = readUrl(String.format(URLConstants.GET_USER_STATS, FileUtils.getProperty("default", "steamAPIKey"), name));
+            String json = this.landing.getMethods().readUrl(String.format(Constants.GET_USER_STATS, FileUtils.getProperty("default", "steamAPIKey"), name));
 
             return new Gson().fromJson(json, PlayerStats.class).playerstats;
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         return null;
-    }
-
-    private static String readUrl(String urlString) throws IOException {
-        BufferedReader reader = null;
-        try {
-            URL url = new URL(urlString);
-            reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            StringBuilder buffer = new StringBuilder();
-            int           read;
-            char[]        chars  = new char[1024];
-            while ((read = reader.read(chars)) != -1) {
-                buffer.append(chars, 0, read);
-            }
-
-            return buffer.toString();
-        } catch (IOException ignored) {
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
-
-        return urlString;
     }
 }
