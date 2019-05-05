@@ -135,7 +135,6 @@ public class Veto extends Command {
                 if (Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "bestOf")) > pickedMaps.size()) {
                     String banOrPick = (Objects.requireNonNull(BestOf.getBestOfByNumber(FileUtils.getProperty(event.getGuild().getId(), "bestOf")))[Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "vetoIndex"))]
                             .equalsIgnoreCase("ban") ? "ban" : "pick");
-                    System.out.println("pick ban");
 
                     this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().getFileForVeto(banOrPick.equalsIgnoreCase("ban")), new EmbedBuilder()
                             .setThumbnail("attachment://" + (banOrPick.equalsIgnoreCase("ban") ? "ban" : "pick") + ".png")
