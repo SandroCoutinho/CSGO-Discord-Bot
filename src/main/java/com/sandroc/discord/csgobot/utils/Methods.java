@@ -5,7 +5,6 @@ import com.sandroc.discord.csgobot.ILanding;
 import com.sandroc.discord.csgobot.steam.stats.csgo.GameStats;
 import com.sandroc.discord.csgobot.steam.stats.steam.SteamInfo;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.User;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -191,6 +190,14 @@ public class Methods {
             return items.length == command.length;
         }
 
+        return false;
+    }
+
+    public boolean containsValue(String[] arr, String targetValue) {
+        for (String s: arr) {
+            if (s.equals(targetValue))
+                return true;
+        }
         return false;
     }
 }

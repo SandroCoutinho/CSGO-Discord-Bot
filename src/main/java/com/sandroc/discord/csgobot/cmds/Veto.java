@@ -33,11 +33,11 @@ public class Veto extends Command {
     @Override
     public void execute(CommandEvent event) {
         try {
-            String[] mapArray    = FileUtils.getProperty(event.getGuild().getId(), "maps").split(", ");
-            String[] pickedArray = FileUtils.getProperty(event.getGuild().getId(), "pickedMaps").split(", ");
-            String[] items       = event.getArgs().split("\\s+");
+            String[] mapArray     = FileUtils.getProperty(event.getGuild().getId(), "maps").split(", ");
+            String[] pickedArray  = FileUtils.getProperty(event.getGuild().getId(), "pickedMaps").split(", ");
+            String[] items        = event.getArgs().split("\\s+");
             String[] requiredArgs = this.getArguments().split("\\s+");
-            String selected = items[0].toLowerCase();
+            String   selected     = items[0].toLowerCase();
 
             if (!this.landing.getMethods().isMatchingNumberOfArgs(requiredArgs, items)) {
                 this.landing.getMessageUtils().sendMessage(event, "This command requires " +
@@ -125,39 +125,39 @@ public class Veto extends Command {
 
                     if (maps.size() == 1
                             && pickedMaps.size() < Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "bestOf"))) {
-                        pickedMaps.add(this.landing.getMethods().capitalizeSentence(FileUtils.getProperty(event.getGuild().getId(), "maps").substring("[de_".length())));
+                        pickedMaps.add(this.landing.getMethods().capitalizeSentence(FileUtils.getProperty(event.getGuild().getId(), "maps").substring("de_".length())));
                         FileUtils.changeProperty(event.getGuild().getId(), "pickedMaps", String.valueOf(pickedMaps));
                         pickedMaps.clear();
                         pickedMaps.addAll(Arrays.asList(FileUtils.getProperty(event.getGuild().getId(), "pickedMaps").split(", ")));
                     }
+                }
 
-                    if (Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "bestOf")) > pickedMaps.size()) {
-                        String banOrPick = (Objects.requireNonNull(BestOf.getBestOfByNumber(FileUtils.getProperty(event.getGuild().getId(), "bestOf")))[Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "vetoIndex"))]
-                                .equalsIgnoreCase("ban") ? "ban" : "pick");
+                if (Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "bestOf")) > pickedMaps.size()) {
+                    String banOrPick = (Objects.requireNonNull(BestOf.getBestOfByNumber(FileUtils.getProperty(event.getGuild().getId(), "bestOf")))[Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "vetoIndex"))]
+                            .equalsIgnoreCase("ban") ? "ban" : "pick");
 
-                        this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().getFileForVeto(banOrPick.equalsIgnoreCase("ban")), new EmbedBuilder()
-                                .setThumbnail("attachment://" + (banOrPick.equalsIgnoreCase("ban") ? "ban" : "pick") + ".png")
-                                .setTitle("Map Veto")
-                                .setDescription("Type !veto <mapName> to " + banOrPick + " any of the following maps:")
-                                .addField("Maps", String.valueOf(maps), false)
-                                .addField("Turn", (FileUtils.getProperty(event.getGuild().getId(), "lastTurn")
-                                        .equalsIgnoreCase(FileUtils.getProperty(event.getGuild().getId(), "captainOne"))
-                                        ? FileUtils.getProperty(event.getGuild().getId(), "captainTwo")
-                                        : FileUtils.getProperty(event.getGuild().getId(), "captainOne")), false));
+                    this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().getFileForVeto(banOrPick.equalsIgnoreCase("ban")), new EmbedBuilder()
+                            .setThumbnail("attachment://" + (banOrPick.equalsIgnoreCase("ban") ? "ban" : "pick") + ".png")
+                            .setTitle("Map Veto")
+                            .setDescription("Type !veto <mapName> to " + banOrPick + " any of the following maps:")
+                            .addField("Maps", String.valueOf(maps), false)
+                            .addField("Turn", (FileUtils.getProperty(event.getGuild().getId(), "lastTurn")
+                                    .equalsIgnoreCase(FileUtils.getProperty(event.getGuild().getId(), "captainOne"))
+                                    ? FileUtils.getProperty(event.getGuild().getId(), "captainTwo")
+                                    : FileUtils.getProperty(event.getGuild().getId(), "captainOne")), false));
 
-                    } else if (Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "bestOf")) == pickedMaps.size()) {
-                        String mapName = "de_" + pickedMaps.get(0);
+                } else if (Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "bestOf")) == pickedMaps.size()) {
+                    String mapName = "de_" + pickedMaps.get(0);
 
-                        this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().getFileForMap(mapName), new EmbedBuilder()
-                                .setTitle("Map Veto")
-                                .setDescription("You will play on:")
-                                .addField(pickedMaps.size() == 1 ? "Map" : "Maps", Arrays.toString(pickedMaps.toArray()), true)
-                                .addField("Captains", FileUtils.getProperty(event.getGuild().getId(), "captainOne")
-                                        + " " + FileUtils.getProperty(event.getGuild().getId(), "captainTwo"), true)
-                                .setImage("attachment://" + mapName.toLowerCase() + ".jpg"));
+                    this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().getFileForMap(mapName), new EmbedBuilder()
+                            .setTitle("Map Veto")
+                            .setDescription("You will play on:")
+                            .addField(pickedMaps.size() == 1 ? "Map" : "Maps", Arrays.toString(pickedMaps.toArray()), true)
+                            .addField("Captains", FileUtils.getProperty(event.getGuild().getId(), "captainOne")
+                                    + " " + FileUtils.getProperty(event.getGuild().getId(), "captainTwo"), true)
+                            .setImage("attachment://" + mapName.toLowerCase() + ".jpg"));
 
-                        FileUtils.changeProperty(event.getGuild().getId(), "vetoInProgress", String.valueOf(false));
-                    }
+                    FileUtils.changeProperty(event.getGuild().getId(), "vetoInProgress", String.valueOf(false));
                 }
             }
         } catch (Exception ignored) {

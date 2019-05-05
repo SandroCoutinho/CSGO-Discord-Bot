@@ -31,11 +31,11 @@ public class StopVeto extends Command {
     @Override
     public void execute(CommandEvent event) {
         if (!Boolean.parseBoolean(FileUtils.getProperty(event.getGuild().getId(), "vetoInProgress"))) {
-            this.landing.getMessageUtils().sendMessage(event, "There's currently no VETO in progress.");
+            this.landing.getMessageUtils().sendMessage(event, "```diff\n- [ERROR] There's currently no VETO in progress.```");
             return;
         }
 
         FileUtils.changeProperty(event.getGuild().getId(), "vetoInProgress", String.valueOf(false));
-        this.landing.getMessageUtils().sendMessage(event, "Stopped the current veto, requested by " + event.getAuthor().getAsMention() + ".");
+        this.landing.getMessageUtils().sendMessage(event, "```css\nStopped the current veto, requested by " + event.getAuthor().getName() + ".```");
     }
 }

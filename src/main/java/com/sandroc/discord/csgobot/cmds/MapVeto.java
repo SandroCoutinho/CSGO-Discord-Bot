@@ -23,7 +23,7 @@ public class MapVeto extends Command {
     public MapVeto(ILanding landing) {
         this.name = "start";
         this.help = "starts a new veto";
-        this.cooldown = 120;
+        this.cooldown = 30;
         this.cooldownScope = CooldownScope.GUILD;
         this.arguments = "<boX> <@captainOne> <@captainTwo>";
         this.userPermissions = new Permission[]{ Permission.MANAGE_CHANNEL };
@@ -34,23 +34,26 @@ public class MapVeto extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        String[] items = event.getArgs().split("\\s+");
+        String[] items        = event.getArgs().split("\\s+");
         String[] requiredArgs = this.getArguments().split("\\s+");
-
+        String[] bestOfValues = { "1", "2", "3", "5" };
         if (!this.landing.getMethods().isMatchingNumberOfArgs(requiredArgs, items)) {
-            this.landing.getMessageUtils().sendMessage(event, "This command requires " +
-                    requiredArgs.length + " " + (requiredArgs.length == 1 ? "Argument" : "Arguments") + ".\nExample: !" + this.getName() + " " + this.getArguments());
+            this.landing.getMessageUtils().sendMessage(event, "```diff\n- [ERROR] This command requires " +
+                    requiredArgs.length + " " + (requiredArgs.length == 1 ? "argument" : "arguments") + ".\n\nExample: !" + this.getName() + " " + this.getArguments() + "```");
             return;
         }
-
-        if (items[0].length() > 3) {
-            this.landing.getMessageUtils().sendMessage(event, "The first Argument must be BO1, BO2, BO3 or BO5.");
+        if (!this.landing.getMethods().containsValue(bestOfValues, items[0].substring("bo".length()))
+                || items[0].length() > 3) {
+            this.landing.getMessageUtils().sendMessage(event, "```diff\n- [ERROR] The first argument must be BO1, BO2, BO3 or BO5.```");
             return;
         }
-
+        if (items[1].equalsIgnoreCase(items[2])) {
+            this.landing.getMessageUtils().sendMessage(event, "```diff\n- [ERROR] The captains can't be the same person. ```");
+            return;
+        }
         if (FileUtils.configFileExists(event.getGuild().getId())) {
             if (Boolean.parseBoolean(FileUtils.getProperty(event.getGuild().getId(), "vetoInProgress"))) {
-                this.landing.getMessageUtils().sendMessage(event, "A Veto is already in Progress");
+                this.landing.getMessageUtils().sendMessage(event, "```diff\n- [ERROR] A Veto is already in Progress```");
                 return;
             }
         }
