@@ -51,9 +51,6 @@ public class Veto extends Command {
             }
             if (!event.getMessage().getAuthor().getAsMention().equals(FileUtils.getProperty(event.getGuild().getId(), "captainOne"))
                     && !event.getMessage().getAuthor().getAsMention().equals((FileUtils.getProperty(event.getGuild().getId(), "captainTwo")))) {
-
-                System.out.println(event.getMessage().getAuthor().getAsMention());
-                System.out.println(FileUtils.getProperty(event.getGuild().getId(), "captainTwo"));
                 this.landing.getMessageUtils().sendMessage(event, "Only the team captains can perform the vetoes.");
                 return;
             }
