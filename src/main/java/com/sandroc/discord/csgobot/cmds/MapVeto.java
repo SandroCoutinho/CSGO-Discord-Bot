@@ -58,8 +58,6 @@ public class MapVeto extends Command {
             }
         }
 
-        System.out.println(Arrays.toString(items));
-
         FileUtils.writeProperty(event.getGuild().getId(), "vetoInProgress", String.valueOf(true));
         FileUtils.writeProperty(event.getGuild().getId(), "maps", Arrays.toString(Constants.ACTIVE_MAP_POOL));
         FileUtils.writeProperty(event.getGuild().getId(), "bestOf", items[0].substring("bo".length()));
@@ -71,7 +69,7 @@ public class MapVeto extends Command {
 
         this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().getFileForVeto(true), new EmbedBuilder()
                 .setTitle("Map Veto Has Started!")
-                .setDescription("Type !veto [mapname] to ban any of the following maps:")
+                .setDescription("Type !veto <mapName> to ban any of the following maps:")
                 .addField("Maps", FileUtils.getProperty(event.getGuild().getId(), "maps"), true)
                 .addField("Turn", FileUtils.getProperty(event.getGuild().getId(), "captainTwo"), true)
                 .setThumbnail("attachment://ban.png"));
