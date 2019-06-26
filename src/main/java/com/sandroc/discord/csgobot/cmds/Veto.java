@@ -147,13 +147,15 @@ public class Veto extends Command {
                     } else {
                         String mapName = "de_" + pickedMaps.get(0);
 
+                        System.out.println(pickedMaps);
+
                         this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().getFileForMap(mapName), new EmbedBuilder()
                                 .setTitle("Map Veto")
+                                .setImage("attachment://" + mapName.toLowerCase() + ".jpg")
                                 .setDescription("You will play on:")
                                 .addField(pickedMaps.size() == 1 ? "Map" : "Maps", Arrays.toString(pickedMaps.toArray()), true)
                                 .addField("Captains", FileUtils.getProperty(event.getGuild().getId(), "captainOne")
-                                        + " " + FileUtils.getProperty(event.getGuild().getId(), "captainTwo"), true)
-                                .setImage("attachment://" + mapName.toLowerCase() + ".jpg"));
+                                        + " " + FileUtils.getProperty(event.getGuild().getId(), "captainTwo"), true));
 
                         FileUtils.changeProperty(event.getGuild().getId(), "vetoInProgress", String.valueOf(false));
                     }
