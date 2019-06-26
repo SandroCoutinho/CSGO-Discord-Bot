@@ -1,1 +1,1 @@
-worker java $JAVA_OPTS -jar target/csgo-discord-bot-jar-with-dependencies.jar
+worker java $JAVA_OPTS -classpath target/csgo-discord-bot-jar-with-dependencies.jar;cache com.sandroc.discord.csgobot.Landing
