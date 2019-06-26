@@ -147,6 +147,9 @@ public class Veto extends Command {
 
                     }
 
+                    System.out.println(Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "bestOf")) );
+                    System.out.println(pickedMaps.size());
+                    System.out.println(Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "bestOf")) == pickedMaps.size());
                     if (Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "bestOf")) == pickedMaps.size()) {
                         String mapName = "de_" + pickedMaps.get(0);
 
