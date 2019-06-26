@@ -125,7 +125,6 @@ public class Veto extends Command {
 
                     if (maps.size() == 1
                             && Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "bestOf")) > pickedMaps.size()) {
-                        System.out.println("adding to picked");
                         pickedMaps.add(this.landing.getMethods().capitalizeSentence(FileUtils.getProperty(event.getGuild().getId(), "maps").substring("de_".length())));
                         FileUtils.changeProperty(event.getGuild().getId(), "pickedMaps", String.valueOf(pickedMaps));
                         pickedMaps.clear();
@@ -147,11 +146,8 @@ public class Veto extends Command {
 
                     }
 
-                    System.out.println(Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "bestOf")) );
-                    System.out.println(pickedMaps.size());
-                    System.out.println(Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "bestOf")) == pickedMaps.size());
                     if (Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "bestOf")) == pickedMaps.size()) {
-                        System.out.println("test?");
+                        Thread.sleep(1000);
                         String mapName = "de_" + pickedMaps.get(0);
 
                         this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().getFileForMap(mapName), new EmbedBuilder()
