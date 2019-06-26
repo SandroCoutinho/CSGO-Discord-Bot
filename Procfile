@@ -1,1 +1,1 @@
-worker java -classpath target/csgo-discord-bot-jar-with-dependencies.jar;cache/ com.sandroc.discord.csgobot.Landing
+worker java -classpath csgo-discord-bot-jar-with-dependencies.jar;cache com.sandroc.discord.csgobot.Landing
