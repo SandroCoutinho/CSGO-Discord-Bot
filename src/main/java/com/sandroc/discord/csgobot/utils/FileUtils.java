@@ -116,7 +116,6 @@ public class FileUtils {
 
             cacheProperties.load(new FileInputStream("cache/version.setting"));
             if (Double.parseDouble(currentVersion()) > Double.parseDouble(cacheProperties.getProperty("version"))) {
-                System.out.println("Downloading new cache!");
                 downloadCache();
             }
         } catch (IOException e) {
@@ -126,6 +125,8 @@ public class FileUtils {
     }
 
     private static void downloadCache() {
+        System.out.println("Downloading cache");
+
         try {
             URL              url  = new URL("https://www.dropbox.com/s/smxdf6yj1u7drul/cache.zip?dl=1");
             URLConnection    conn = url.openConnection();
