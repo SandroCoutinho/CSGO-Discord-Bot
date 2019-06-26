@@ -151,6 +151,7 @@ public class Veto extends Command {
                     System.out.println(pickedMaps.size());
                     System.out.println(Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "bestOf")) == pickedMaps.size());
                     if (Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "bestOf")) == pickedMaps.size()) {
+                        System.out.println("test?");
                         String mapName = "de_" + pickedMaps.get(0);
 
                         this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().getFileForMap(mapName), new EmbedBuilder()
