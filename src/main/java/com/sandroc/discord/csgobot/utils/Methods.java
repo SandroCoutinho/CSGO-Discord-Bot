@@ -95,15 +95,15 @@ public class Methods {
 
     public File getFileForMap(String map) {
         ClassLoader classLoader = getClass().getClassLoader();
-        return new File(classLoader.getResource(map + ".jpg").getFile());
+        return new File(classLoader.getResource("cache/" + map + ".jpg").getFile());
     }
 
     public File getFileForCoinflip(double randomNumber) {
         ClassLoader classLoader = getClass().getClassLoader();
         if (randomNumber < 0.5) {
-            return new File(classLoader.getResource("counter-terrorist.png").getFile());
+            return new File(classLoader.getResource("cache/counter-terrorist.png").getFile());
         } else {
-            return new File(classLoader.getResource("terrorist.png").getFile());
+            return new File(classLoader.getResource("cache/terrorist.png").getFile());
         }
     }
 
@@ -111,7 +111,7 @@ public class Methods {
         ClassLoader classLoader = getClass().getClassLoader();
         if (ban) {
 
-            return new File(classLoader.getResource("ban.png").getFile());
+            return new File(classLoader.getResource("cache/ban.png").getFile());
         } else {
             return new File(classLoader.getResource("cache/pick.png").getFile());
         }
