@@ -37,6 +37,8 @@ public class Landing implements ILanding {
             FileUtils.writeDefaultConfigs();
         }
 
+        FileUtils.newVersion();
+
         if (!Boolean.parseBoolean(FileUtils.getProperty("default", "botEnabled"))) {
             System.out.println("The bot is disabled. Please enable it in `default.settings`.");
             return;

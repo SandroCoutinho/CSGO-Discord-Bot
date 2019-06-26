@@ -7,7 +7,10 @@ import com.sandroc.discord.csgobot.steam.stats.steam.SteamInfo;
 import net.dv8tion.jda.core.EmbedBuilder;
 
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.*;
@@ -91,30 +94,27 @@ public class Methods {
     }
 
     public File getFileForMap(String map) {
-        return new File(String.valueOf(this.getClass().getResourceAsStream("/maps/" + map + ".jpg")));
+        ClassLoader classLoader = getClass().getClassLoader();
+        return new File(classLoader.getResource(map + ".jpg").getFile());
     }
 
     public File getFileForCoinflip(double randomNumber) {
-        InputStream image;
-
+        ClassLoader classLoader = getClass().getClassLoader();
         if (randomNumber < 0.5) {
-            image = this.getClass().getResourceAsStream("/coinflip/counter-terrorist.png");
+            return new File(classLoader.getResource("counter-terrorist.png").getFile());
         } else {
-            image = this.getClass().getResourceAsStream("/coinflip/terrorist.png");
+            return new File(classLoader.getResource("terrorist.png").getFile());
         }
-
-        return new File(String.valueOf(image));
     }
 
     public File getFileForVeto(boolean ban) {
-        InputStream image;
+        ClassLoader classLoader = getClass().getClassLoader();
         if (ban) {
-            image = this.getClass().getResourceAsStream("/veto/ban.png");
-        } else {
-            image = this.getClass().getResourceAsStream("/veto/pick.png");
-        }
 
-        return new File(String.valueOf(image));
+            return new File(classLoader.getResource("ban.png").getFile());
+        } else {
+            return new File(classLoader.getResource("cache/pick.png").getFile());
+        }
     }
 
     public EmbedBuilder buildRandomMap(String map) {

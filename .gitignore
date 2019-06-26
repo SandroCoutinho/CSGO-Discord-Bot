@@ -8,3 +8,5 @@ configs/
 *.iml
 .idea/
 target/
+cache/
+cache.zip
