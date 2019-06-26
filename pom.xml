@@ -10,8 +10,8 @@
 
     <build>
         <finalName>csgo-discord-bot</finalName>
-        <plugins>
 
+        <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>

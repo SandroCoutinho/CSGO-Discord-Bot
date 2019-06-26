@@ -11,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.*;
@@ -95,41 +94,24 @@ public class Methods {
     }
 
     public File getFileForMap(String map) {
-        try {
-            return new File(this.getClass().getResource("/maps/" + map + ".jpg").toURI());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        return new File("cache/" + map + ".jpg");
     }
 
     public File getFileForCoinflip(double randomNumber) {
-        try {
-            if (randomNumber < 0.5) {
-                return new File(this.getClass().getResource("/coinflip/counter-terrorist.png").toURI());
-            } else {
-                return new File(this.getClass().getResource("/coinflip/terrorist.png").toURI());
-            }
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+        if (randomNumber < 0.5) {
+            return new File("cache/counter-terrorist.png");
+        } else {
+            return new File("cache/terrorist.png");
         }
-
-        return null;
     }
 
     public File getFileForVeto(boolean ban) {
-        try {
-            if (ban) {
-                return new File(this.getClass().getResource("/veto/ban.png").toURI());
-            } else {
-                return new File(this.getClass().getResource("/veto/pick.png").toURI());
-            }
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        if (ban) {
 
-        return null;
+            return new File("cache/ban.png");
+        } else {
+            return new File("cache/pick.png");
+        }
     }
 
     public EmbedBuilder buildRandomMap(String map) {
@@ -186,18 +168,16 @@ public class Methods {
     }
 
     public boolean isMatchingNumberOfArgs(String[] command, String[] items) {
-        if (items[0].length() > 1) {
-            return items.length == command.length;
-        }
-
-        return false;
+        return items[0].length() > 1 && items.length == command.length;
     }
 
     public boolean containsValue(String[] arr, String targetValue) {
-        for (String s: arr) {
-            if (s.equals(targetValue))
+        for (String s : arr) {
+            if (s.equals(targetValue)) {
                 return true;
+            }
         }
+
         return false;
     }
 }

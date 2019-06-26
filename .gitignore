@@ -4,6 +4,10 @@ deploy
 # Guild configurations
 configs/
 
+# Cache configurations
+cache/
+cache.zip
+
 # Jetbrains
 *.iml
 .idea/
