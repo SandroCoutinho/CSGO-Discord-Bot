@@ -147,9 +147,6 @@ public class Veto extends Command {
                     } else {
                         String mapName = "de_" + pickedMaps.get(0).toLowerCase();
 
-                        System.out.println(pickedMaps);
-                        System.out.println(mapName);
-
                         this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().getFileForMap(mapName), new EmbedBuilder()
                                 .setTitle("Map Veto")
                                 .setImage("attachment://" + mapName + ".jpg")
