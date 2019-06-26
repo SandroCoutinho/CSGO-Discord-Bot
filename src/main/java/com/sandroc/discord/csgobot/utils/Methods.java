@@ -94,26 +94,23 @@ public class Methods {
     }
 
     public File getFileForMap(String map) {
-        ClassLoader classLoader = getClass().getClassLoader();
-        return new File(classLoader.getResource("cache/" + map + ".jpg").getFile());
+        return new File("cache/" + map + ".jpg");
     }
 
     public File getFileForCoinflip(double randomNumber) {
-        ClassLoader classLoader = getClass().getClassLoader();
         if (randomNumber < 0.5) {
-            return new File(classLoader.getResource("cache/counter-terrorist.png").getFile());
+            return new File("cache/counter-terrorist.png");
         } else {
-            return new File(classLoader.getResource("cache/terrorist.png").getFile());
+            return new File("cache/terrorist.png");
         }
     }
 
     public File getFileForVeto(boolean ban) {
-        ClassLoader classLoader = getClass().getClassLoader();
         if (ban) {
 
-            return new File(classLoader.getResource("cache/ban.png").getFile());
+            return new File("cache/ban.png");
         } else {
-            return new File(classLoader.getResource("cache/pick.png").getFile());
+            return new File("cache/pick.png");
         }
     }
 
