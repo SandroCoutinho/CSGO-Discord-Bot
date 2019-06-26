@@ -144,10 +144,7 @@ public class Veto extends Command {
                                         ? FileUtils.getProperty(event.getGuild().getId(), "captainTwo")
                                         : FileUtils.getProperty(event.getGuild().getId(), "captainOne")), false));
 
-                    }
-
-                    if (Integer.parseInt(FileUtils.getProperty(event.getGuild().getId(), "bestOf")) == pickedMaps.size()) {
-                        Thread.sleep(1000);
+                    } else {
                         String mapName = "de_" + pickedMaps.get(0);
 
                         this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().getFileForMap(mapName), new EmbedBuilder()
