@@ -48,14 +48,12 @@ public class GetSteamInfo {
                 return null;
             }
 
-            String response = this.landing.getMethods().readUrl(String.format(Constants.GET_STEAM_INFO, FileUtils.getProperty("default", "steamAPIKey"), steamID));
-
-            return new Gson().fromJson(response, SteamResponse.class).response;
+            return new Gson().fromJson(this.landing.getMethods().readUrl(String.format(Constants.GET_STEAM_INFO,
+                    FileUtils.getProperty("default", "steamAPIKey"), steamID)), SteamResponse.class).response;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 
     public CsgoStats getCSGOStats(String name) {
@@ -66,11 +64,14 @@ public class GetSteamInfo {
 
             String json = this.landing.getMethods().readUrl(String.format(Constants.GET_USER_STATS, FileUtils.getProperty("default", "steamAPIKey"), name));
 
-            return new Gson().fromJson(json, PlayerStats.class).playerstats;
+            if (!json.startsWith("https://")) {
+                return new Gson().fromJson(json, PlayerStats.class).playerstats;
+            } else {
+                return null;
+            }
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 }

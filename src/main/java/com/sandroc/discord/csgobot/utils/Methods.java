@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import com.sandroc.discord.csgobot.ILanding;
 import com.sandroc.discord.csgobot.data.Constants;
 import com.sandroc.discord.csgobot.faceit.gson.Profile;
+import com.sandroc.discord.csgobot.steam.stats.csgo.CsgoStats;
 import com.sandroc.discord.csgobot.steam.stats.csgo.GameStats;
 import com.sandroc.discord.csgobot.steam.stats.steam.SteamInfo;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -141,15 +142,17 @@ public class Methods {
         EmbedBuilder embedBuilder = null;
 
         try {
-            Map<String, String> csgoStats = new HashMap<>();
-            SteamInfo           steamInfo = Objects.requireNonNull(this.landing.getSteamInfo().getSteamInfo(event, username)).players[0];
-            GameStats[]         gameStats = Objects.requireNonNull(this.landing.getSteamInfo().getCSGOStats(username)).stats;
-            Profile             profile   = this.landing.getFaceItInfo().getProfiles(this.landing.getSteamInfo().getSteamId(username));
+            Map<String, String> csgoStats  = new HashMap<>();
+            SteamInfo           steamInfo  = Objects.requireNonNull(this.landing.getSteamInfo().getSteamInfo(event, username)).players[0];
+            CsgoStats           csgoStats1 = this.landing.getSteamInfo().getCSGOStats(username);
+            Profile             profile    = this.landing.getFaceItInfo().getProfiles(this.landing.getSteamInfo().getSteamId(username));
 
             if (steamInfo != null) {
 
-                for (GameStats stats : gameStats) {
-                    csgoStats.put(stats.name, stats.value);
+                if (csgoStats1 != null) {
+                    for (int i = 0; i < csgoStats1.stats.length; i++) {
+                        csgoStats.put(csgoStats1.stats[i].name, csgoStats1.stats[i].value);
+                    }
                 }
 
                 embedBuilder = new EmbedBuilder();
@@ -160,20 +163,22 @@ public class Methods {
 
                 embedBuilder.setDescription("CSGO Stats");
 
-                if (profile != null) {
+                if (profile.items.length > 0) {
                     embedBuilder.addField("Country", ":flag_" + profile.items[0].country.toLowerCase() + ":", true);
                     embedBuilder.addField("FaceIt Level", profile.items[0].games[0].skillLevel, true);
                 }
-                embedBuilder.addField("Total MVPs", formatNumber(csgoStats.get("total_mvps")), true);
-                embedBuilder.addField("Game Time", minutesToHours(csgoStats.get("total_time_played")) + " Hrs", true);
-                embedBuilder.addField("Total Kills", formatNumber(csgoStats.get("total_kills")), true);
-                embedBuilder.addField("Total Deaths", formatNumber(csgoStats.get("total_deaths")), true);
-                embedBuilder.addField("Total Damage Done", formatNumber(csgoStats.get("total_damage_done")), true);
-                embedBuilder.addField("Total Knife Kills", formatNumber(csgoStats.get("total_kills_knife")), true);
-                embedBuilder.addField("Total Bombs Planted", formatNumber(csgoStats.get("total_planted_bombs")), true);
-                embedBuilder.addField("Total Bombs Defused", formatNumber(csgoStats.get("total_defused_bombs")), true);
-                embedBuilder.addField("Total Pistol Rounds Won", formatNumber(csgoStats.get("total_wins_pistolround")), true);
-                embedBuilder.addField("Most Played Map", getMostPlayedMap(gameStats), true);
+                if (!csgoStats.isEmpty()) {
+                    embedBuilder.addField("Total MVPs", formatNumber(csgoStats.get("total_mvps")), true);
+                    embedBuilder.addField("Game Time", minutesToHours(csgoStats.get("total_time_played")) + " Hrs", true);
+                    embedBuilder.addField("Total Kills", formatNumber(csgoStats.get("total_kills")), true);
+                    embedBuilder.addField("Total Deaths", formatNumber(csgoStats.get("total_deaths")), true);
+                    embedBuilder.addField("Total Damage Done", formatNumber(csgoStats.get("total_damage_done")), true);
+                    embedBuilder.addField("Total Knife Kills", formatNumber(csgoStats.get("total_kills_knife")), true);
+                    embedBuilder.addField("Total Bombs Planted", formatNumber(csgoStats.get("total_planted_bombs")), true);
+                    embedBuilder.addField("Total Bombs Defused", formatNumber(csgoStats.get("total_defused_bombs")), true);
+                    embedBuilder.addField("Total Pistol Rounds Won", formatNumber(csgoStats.get("total_wins_pistolround")), true);
+                    embedBuilder.addField("Most Played Map", getMostPlayedMap(csgoStats1.stats), true);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
