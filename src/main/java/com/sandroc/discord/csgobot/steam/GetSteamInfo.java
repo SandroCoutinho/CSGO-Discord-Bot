@@ -21,7 +21,7 @@ public class GetSteamInfo {
         this.landing = landing;
     }
 
-    private String getSteamId(String name) {
+    public String getSteamId(String name) {
         try {
             String  response      = this.landing.getMethods().readUrl(String.format(Constants.GET_USER_STEAMID, FileUtils.getProperty("default", "steamAPIKey"), name));
             SteamID steamResponse = new Gson().fromJson(response, CSGOResponse.class).response;

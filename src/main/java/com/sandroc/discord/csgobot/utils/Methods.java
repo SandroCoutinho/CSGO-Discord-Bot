@@ -2,6 +2,8 @@ package com.sandroc.discord.csgobot.utils;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.sandroc.discord.csgobot.ILanding;
+import com.sandroc.discord.csgobot.data.Constants;
+import com.sandroc.discord.csgobot.faceit.gson.Profile;
 import com.sandroc.discord.csgobot.steam.stats.csgo.GameStats;
 import com.sandroc.discord.csgobot.steam.stats.steam.SteamInfo;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -12,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLConnection;
 import java.text.NumberFormat;
 import java.util.*;
 
@@ -33,8 +36,13 @@ public class Methods {
     public String readUrl(String urlString) throws IOException {
         BufferedReader reader = null;
         try {
-            URL url = new URL(urlString);
-            reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            URL           url           = new URL(urlString);
+            URLConnection urlConnection = url.openConnection();
+            if (urlString.startsWith(Constants.FACEIT_API)) {
+                urlConnection.setRequestProperty("Authorization", "Bearer " + FileUtils.getProperty("default", "faceItKey"));
+            }
+            reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
             StringBuilder buffer = new StringBuilder();
             int           read;
             char[]        chars  = new char[1024];
@@ -131,12 +139,15 @@ public class Methods {
 
     public EmbedBuilder buildSteamInfo(CommandEvent event, String username) {
         EmbedBuilder embedBuilder = null;
+
         try {
             Map<String, String> csgoStats = new HashMap<>();
             SteamInfo           steamInfo = Objects.requireNonNull(this.landing.getSteamInfo().getSteamInfo(event, username)).players[0];
             GameStats[]         gameStats = Objects.requireNonNull(this.landing.getSteamInfo().getCSGOStats(username)).stats;
+            Profile             profile   = this.landing.getFaceItInfo().getProfiles(this.landing.getSteamInfo().getSteamId(username));
 
             if (steamInfo != null) {
+
                 for (GameStats stats : gameStats) {
                     csgoStats.put(stats.name, stats.value);
                 }
@@ -149,6 +160,8 @@ public class Methods {
 
                 embedBuilder.setDescription("CSGO Stats");
 
+                embedBuilder.addField("Country", ":flag_" + profile.items[0].country.toLowerCase() + ":", true);
+                embedBuilder.addField("FaceIt Level", profile.items[0].games[0].skillLevel, true);
                 embedBuilder.addField("Total MVPs", formatNumber(csgoStats.get("total_mvps")), true);
                 embedBuilder.addField("Game Time", minutesToHours(csgoStats.get("total_time_played")) + " Hrs", true);
                 embedBuilder.addField("Total Kills", formatNumber(csgoStats.get("total_kills")), true);
