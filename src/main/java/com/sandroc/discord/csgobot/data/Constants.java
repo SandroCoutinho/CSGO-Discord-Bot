@@ -12,4 +12,7 @@ public class Constants {
     public static final String HLTV_API    = "https://hltv-api-bot.herokuapp.com/";
     public static final String GET_RESULTS = HLTV_API + "results";
     public static final String GET_NEWS    = HLTV_API + "news";
+
+    public static final String FACEIT_API  = "https://open.faceit.com/data/v4/";
+    public static final String SEARCH_USER = FACEIT_API + "search/players?nickname=%s&game=csgo&offset=0&limit=1";
 }

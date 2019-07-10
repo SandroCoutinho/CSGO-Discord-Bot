@@ -3,7 +3,8 @@ package com.sandroc.discord.csgobot.utils;
 public enum DefaultSetting {
     BOT_ENABLED("botEnabled", false),
     BOT_TOKEN("botToken", "BOT_TOKEN"),
-    STEAM_API_KEY("steamAPIKey", "STEAM_API_KEY");
+    STEAM_API_KEY("steamAPIKey", "STEAM_API_KEY"),
+    FACEIT_API("faceItKey", "FACEIT_KEY");
 
     private String key;
     private Object value;
