@@ -29,7 +29,7 @@ public class SteamStats extends Command {
 
     @Override
     public void execute(CommandEvent event) {
-        String[] items = event.getArgs().split("\\s+");
+        String[] items        = event.getArgs().split("\\s+");
         String[] requiredArgs = this.getArguments().split("\\s+");
 
         if (!this.landing.getMethods().isMatchingNumberOfArgs(requiredArgs, items)) {
