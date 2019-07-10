@@ -9,22 +9,19 @@ import com.sandroc.discord.csgobot.hltv.gson.News;
 import java.io.IOException;
 
 public class GetHLTVInfo {
-    private static ILanding landing;
+    private ILanding landing;
 
     public GetHLTVInfo(ILanding landing) {
-        GetHLTVInfo.landing = landing;
+        this.landing = landing;
     }
 
     public Match[] getResults() {
         try {
-            String response = landing.getMethods().readUrl(Constants.GET_RESULTS);
-
-            return new Gson().fromJson(response, Match[].class);
+            return new Gson().fromJson(this.landing.getMethods().readUrl(Constants.GET_RESULTS), Match[].class);
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 
     public Match getResultForTeam(String teamName) {
@@ -42,14 +39,11 @@ public class GetHLTVInfo {
 
     public News[] getLatestNews() {
         try {
-            String response = landing.getMethods().readUrl(Constants.GET_NEWS);
-
-            return new Gson().fromJson(response, News[].class);
+            return new Gson().fromJson(this.landing.getMethods().readUrl(Constants.GET_NEWS), News[].class);
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 
     public News getNewsByIndex(int index) {
