@@ -160,8 +160,10 @@ public class Methods {
 
                 embedBuilder.setDescription("CSGO Stats");
 
-                embedBuilder.addField("Country", ":flag_" + profile.items[0].country.toLowerCase() + ":", true);
-                embedBuilder.addField("FaceIt Level", profile.items[0].games[0].skillLevel, true);
+                if (profile != null) {
+                    embedBuilder.addField("Country", ":flag_" + profile.items[0].country.toLowerCase() + ":", true);
+                    embedBuilder.addField("FaceIt Level", profile.items[0].games[0].skillLevel, true);
+                }
                 embedBuilder.addField("Total MVPs", formatNumber(csgoStats.get("total_mvps")), true);
                 embedBuilder.addField("Game Time", minutesToHours(csgoStats.get("total_time_played")) + " Hrs", true);
                 embedBuilder.addField("Total Kills", formatNumber(csgoStats.get("total_kills")), true);
