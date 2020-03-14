@@ -48,17 +48,9 @@
 
     <repositories>
         <repository>
-            <id>jcenter</id>
-            <name>jcenter-bintray</name>
+            <id>central</id>
+            <name>bintray</name>
             <url>http://jcenter.bintray.com</url>
-        </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>mvn repo</id>
-            <url>https://mvnrepository.com</url>
         </repository>
     </repositories>
 
