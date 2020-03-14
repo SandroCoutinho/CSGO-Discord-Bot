@@ -18,7 +18,7 @@ public class Coinflip extends Command {
     public Coinflip(ILanding landing) {
         this.name = "coinflip";
         this.help = "CT/T Side Selector";
-        this.cooldown = 30;
+        this.cooldown = 0;
         this.cooldownScope = CooldownScope.GUILD;
         this.botPermissions = new Permission[]{ Permission.MESSAGE_WRITE };
         this.guildOnly = false;
@@ -28,6 +28,10 @@ public class Coinflip extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
+        if (event.getGuild() != null) {
+            this.cooldown = 30;
+        }
+
         double randomNumber = Math.random();
         this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().getFileForCoinflip(randomNumber), this.landing.getMethods().buildCoinflip(randomNumber));
     }
