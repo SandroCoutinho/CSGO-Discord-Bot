@@ -73,7 +73,6 @@ public class FileUtils {
             FileWriter out = new FileWriter(file);
 
             for (DefaultSetting defaultSetting : DefaultSetting.values()) {
-                System.out.println("writing?");
                 out.write(defaultSetting.getKey() + "=" + defaultSetting.getValue() + "\n");
             }
 

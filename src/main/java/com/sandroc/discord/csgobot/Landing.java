@@ -34,9 +34,6 @@ public class Landing implements ILanding {
     }
 
     public static void main(String[] args) throws Exception {
-        System.out.println("Active");
-
-
         if (!Files.exists(Paths.get("configs/default.settings"))) {
             FileUtils.writeDefaultConfigs();
         }
@@ -77,7 +74,7 @@ public class Landing implements ILanding {
                 .setStatus(OnlineStatus.DO_NOT_DISTURB)
                 .addEventListener(eventWaiter)
                 .addEventListener(client.build())
-                
+
                 .build();
     }
 
