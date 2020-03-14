@@ -40,6 +40,10 @@ public class FileUtils {
 
     public static String getProperty(String guild, String key) {
         try {
+            if (!Files.exists(Paths.get("configs/" + guild + ".settings"))) {
+                new File("configs/" + guild + ".settings").createNewFile();
+            }
+
             if (guild.equalsIgnoreCase("default")) {
                 defaultProperties.load(new FileInputStream("configs/default.settings"));
                 return defaultProperties.getProperty(key);
@@ -61,9 +65,15 @@ public class FileUtils {
 
     public static void writeDefaultConfigs() {
         try {
-            FileWriter out = new FileWriter(new File("configs/default.settings"));
+            File directory = new File("configs");
+            directory.mkdir();
+
+            File file = new File("configs/default.settings");
+            file.createNewFile();
+            FileWriter out = new FileWriter(file);
 
             for (DefaultSetting defaultSetting : DefaultSetting.values()) {
+                System.out.println("writing?");
                 out.write(defaultSetting.getKey() + "=" + defaultSetting.getValue() + "\n");
             }
 
