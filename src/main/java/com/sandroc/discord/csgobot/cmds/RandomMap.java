@@ -18,7 +18,7 @@ public class RandomMap extends Command {
 
     public RandomMap(ILanding landing) {
         this.name = "randommap";
-        this.cooldown = 30;
+        this.cooldown = 0;
         this.cooldownScope = CooldownScope.GUILD;
         this.help = "Selects a random map of the active duty pool";
         this.botPermissions = new Permission[]{ Permission.MESSAGE_WRITE };
@@ -29,6 +29,10 @@ public class RandomMap extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
+        if (event.getGuild() != null) {
+            this.cooldown = 30;
+        }
+
         String map = Constants.ACTIVE_MAP_POOL[(int) Math.floor(Math.random() * Constants.ACTIVE_MAP_POOL.length)];
         this.landing.getMessageUtils().sendMessage(event, this.landing.getMethods().getFileForMap(map), this.landing.getMethods().buildRandomMap(map));
     }

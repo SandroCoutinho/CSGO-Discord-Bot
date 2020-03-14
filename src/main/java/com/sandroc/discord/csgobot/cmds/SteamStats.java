@@ -18,7 +18,7 @@ public class SteamStats extends Command {
     public SteamStats(ILanding landing) {
         this.name = "csgostats";
         this.help = "Grabs CSGO data from Steam";
-        this.cooldown = 60;
+        this.cooldown = 0;
         this.cooldownScope = CooldownScope.GUILD;
         this.arguments = "<steamProfileId/steamProfileName>";
         this.botPermissions = new Permission[]{ Permission.MESSAGE_WRITE };
@@ -29,6 +29,10 @@ public class SteamStats extends Command {
 
     @Override
     public void execute(CommandEvent event) {
+        if (event.getGuild() != null) {
+            this.cooldown = 30;
+        }
+
         String[] items        = event.getArgs().split("\\s+");
         String[] requiredArgs = this.getArguments().split("\\s+");
 
