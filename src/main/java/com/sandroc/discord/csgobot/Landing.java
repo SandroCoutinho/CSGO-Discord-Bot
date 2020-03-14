@@ -74,6 +74,7 @@ public class Landing implements ILanding {
                 .setStatus(OnlineStatus.DO_NOT_DISTURB)
                 .addEventListener(eventWaiter)
                 .addEventListener(client.build())
+
                 .build();
     }
 
