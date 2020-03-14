@@ -1,0 +1,17 @@
+# Heroku deployment system
+deploy
+
+# Guild configurations
+configs/
+
+# Cache configurations
+cache/
+cache.zip
+
+# Jetbrains
+*.iml
+.idea/
+target/
+build
+.gradle
+gradle
