@@ -2,7 +2,7 @@ package com.sandroc.discord.csgobot.data;
 
 public class Constants {
 
-    public static final String[] ACTIVE_MAP_POOL = { "de_inferno", "de_train", "de_mirage", "de_nuke", "de_overpass", "de_dust2", "de_vertigo", "de_cache" };
+    public static final String[] ACTIVE_MAP_POOL = { "de_inferno", "de_train", "de_cache", "de_nuke", "de_overpass", "de_dust2", "de_vertigo" };
 
     public static final String STEAM_API        = "https://api.steampowered.com/";
     public static final String GET_USER_STATS   = STEAM_API + "ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=%s&steamid=%s";
